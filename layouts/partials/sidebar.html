@@ -1,0 +1,105 @@
+<!-- SIDEBAR (DERECHA) -->
+      <aside class="col-lg-2 col-md-12" id="right">
+
+        <div style="margin-bottom:1rem;">
+  <a href="https://paypal.me/EFEReikiCaminodeLuz7?locale.x=es_XC"
+     target="_blank"
+     rel="noopener noreferrer"
+     style="display:block;text-align:center;">
+    <img src="/img/boton-paypal.png"
+         alt="Donar con PayPal"
+         class="btn-sombra"
+         style="display:block;width:100%;height:auto;">
+  </a>
+</div>
+
+        <!-- SÍGUENOS -->
+        <div class="mb-4 text-center">
+          <h4 class="text-center">SÍGUENOS</h4>
+
+          <div class="social-icon-tint sharethis text-center">
+
+            <!-- YOUTUBE: Siempre visible -->
+            <div class="mb-3">
+              <i class="open-follow" data-modal="youtube" title="YouTube" style="cursor:pointer;">
+                <span class="fa fa-youtube-square fa-2x btn-sombra"></span>
+              </i>
+            </div>
+
+            <!-- FACEBOOK: Visible solo en LG (Desktop) -->
+            <!-- Agregamos d-none d-lg-block al DIV padre para que los <br> no dejen hueco -->
+            <div class="mb-3">
+              <i class="open-follow" data-modal="facebooklike" title="Síguenos/Like" style="cursor:pointer;">
+                <span class="fb-icons-wrapper btn-sombra" style="display: inline-flex; align-items: center; gap: 10px;">
+                  <i class="fa fa-facebook-square fa-2x"></i>
+                  <i class="fa fa-thumbs-o-up fa-2x"></i>
+                </span>
+              </i>
+            </div>
+
+          </div>
+        </div>
+
+        <!-- Modal YouTube -->
+        <div id="youtube" class="follow-modal">
+          <!-- El contenedor principal ahora es AZUL -->
+          <div class="follow-modal-content" style="background-color: #6699CC !important; border: none;">
+
+            <div class="follow-modal-header" style="display: flex; align-items: center; padding: 0 15px;">
+              <h2 class="text-center" style="margin:0; color:white; flex-grow: 1; padding: 15px 0; padding-left: 30px;">
+                AQUÍ⇩SUSCRÍBETE
+              </h2>
+              <i onclick="document.getElementById('youtube').style.display='none';
+                  document.getElementById('iframeYouTube').src=document.getElementById('iframeYouTube').src"
+                class="follow-modal-close">
+                &times;
+              </i>
+            </div>
+
+            <!-- Cuerpo del modal también en AZUL -->
+            <div class="p-4 text-center" style="background-color: #6699CC !important;">
+              <div class="g-ytsubscribe" data-channelid="UC3PTLY-FHMlIcyPibz0vQ0w" data-layout="full" data-theme="dark"
+                data-count="default"></div>
+              <div style="width:100%; margin-top:15px; border: none;">
+                <iframe id="iframeYouTube" width="100%" height="350"
+                  src="https://www.youtube.com/embed/ZTnpmzK96i8?sub_confirmation=1" frameborder="0"
+                  style="border: none; border-radius: 10px;" allowfullscreen>
+                </iframe>
+              </div>
+            </div>
+
+          </div>
+        </div>
+        <!-- MODAL FB -->
+        <div id="facebooklike" class="follow-modal">
+          <div class="follow-modal-content text-center"> <!-- Añadido text-center -->
+            <div class="follow-modal-header">
+              <h2>
+                <span>Mantén contacto</span>
+                <span class="follow-modal-close">&times;</span>
+              </h2>
+            </div>
+            <!-- El botón ahora se alineará al centro por el padre -->
+            <a href="https://www.facebook.com/profile.php?id=100063989557803" class="fb-follow-btn" target="_blank"
+              rel="noopener noreferrer">
+              <svg xmlns="http://www.w3.org" viewBox="0 0 320 512"> <!-- xmlns corregido -->
+                <path
+                  d="M279.14 288l14.22-92.66h-88.91v-60.13c0-25.35 12.42-50.06 52.24-50.06h40.42V6.26S260.43 0 225.36 0c-73.22 0-121.08 44.38-121.08 124.72v70.62H22.89V288h81.39v224h100.17V288z" />
+              </svg>
+              Síguenos en Facebook
+            </a>
+            <h4><i>Abre en una nueva pestaña </i><i class="fa fa-external-link"></i></h4>
+          </div>
+        </div>
+
+        <div style="margin-bottom:1rem;">
+          <a href="/posts/" class="btn-publicaciones btn-sombra" style="display:block;background-color:#6699CC;color:#fff;
+          padding:10px 0;border-radius:999px;text-align:center;">
+            Publicaciones Nuevas
+          </a>
+        </div>
+        {{ partial "related.html" . }}
+      </aside>
+
+    </div>
+  </div>

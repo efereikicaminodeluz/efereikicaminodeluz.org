@@ -1,0 +1,42 @@
+# 1. Identidad básica
+baseURL = 'https://efereikicaminodeluz.org'
+locale = 'es-ve'
+title = 'ESCUELA DE FORMACION ESPIRITUAL | Reiki Camino de Luz'
+
+# 2. Configuración de Markup (Necesario para tu render-image.html)
+[markup]
+  [markup.goldmark.renderer]
+    unsafe = true
+  [markup.goldmark.renderHooks.link]
+    useEmbedded = "fallback"
+
+# 3. Parámetros globales para Imágenes y SEO
+[params]
+  author = "EFE"
+  description = "Tu espacio seguro de Conexión Espiritual® EFE Reiki camino de luz."
+  images = ["images/default-share.jpg"]
+  default_og_image = "images/default-share.jpg"
+
+# 4. Sistema de taxonomias
+  [taxonomies]
+  category = "categorias"
+  tema = "temas"
+  tag = "aspectos"
+
+# 5. Motor de Contenidos Relacionados
+[related]
+  threshold = 50
+  includeNewer = true
+  toLower = true # Convierte a minúsculas para evitar fallos de coincidencia por mayúsculas
+
+  [[related.indices]]
+    name = "temas"
+    weight = 100
+
+  [[related.indices]]
+    name = "aspectos"
+    weight = 80
+
+  [[related.indices]]
+    name = "date"
+    weight = 10 # Le da un pequeño empuje al contenido más reciente si empatan en taxonomías

@@ -1,0 +1,1423 @@
+    body {
+      background-color: #f0eee9;
+      color: #1a2a3a;
+      margin: 0;
+      padding: 0;
+      min-height: 100vh;
+      /* Asegura que el color cubra toda la pantalla */
+    }
+/* Fuerza el color base para cualquier enlace en el contenido principal */
+
+main a:hover {
+  color: #ff00ff;
+}
+/* ===============================
+   1. ESTRUCTURA STICKY (CONTENEDOR PADRE)
+   =============================== */
+    .top {
+      position: sticky;
+      top: -90px;
+      /* Altura Desktop */
+      z-index: 3000;
+      background: #fff;
+    }
+
+    /* ===============================
+   2. HEADER LOGO (ALTURAS Y FLUIDEZ)
+   =============================== */
+    .center-logo-box {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 90px;
+      /* Altura Desktop */
+      background-color: #fff;
+      position: relative;
+      z-index: 1040;
+      transition: none;
+    }
+
+    .logo-texto {
+      font-family: 'Roboto', sans-serif;
+      text-decoration: none !important;
+      line-height: 1;
+      letter-spacing: 3px;
+      color: #6699CC;
+      white-space: nowrap;
+      display: flex;
+      align-items: center;
+      gap: 1vw;
+      font-size: 1.5rem;
+      /* Base para escritorio */
+    }
+
+    .logo-img {
+      height: 90px;
+      width: auto;
+      flex-shrink: 0;
+    }
+
+    /* Escala fluida para tablets y móviles grandes */
+    @media (max-width: 991.98px) {
+      .logo-texto {
+        font-size: 8.5vw;
+      }
+    }
+
+    .topnav {
+      position: sticky;
+      top: 0;
+      background-color: #6699CC !important;
+      padding: 0 !important;
+      z-index: 3001;
+      border: none;
+      transition: transform 0.3s ease;
+    }
+
+    .topnav-icons {
+      display: flex !important;
+      align-items: center;
+      justify-content: center;
+      height: 100%;
+      font-size: 1.2rem;
+      min-width: 45px;
+    }
+
+    .topnav .navbar-nav {
+      display: flex !important;
+      width: 100%;
+      margin: 0;
+      padding: 0;
+      list-style: none;
+      background-color: transparent !important;
+    }
+
+    /* Aseguramos que el botón de hamburguesa sea totalmente clicable */
+  .navbar-toggler {
+    position: relative !important;
+    z-index: 1000000 !important;
+    pointer-events: auto !important;
+  }
+
+
+    .topnav .nav-link {
+      color: #fff !important;
+      padding: 15px 20px !important;
+      white-space: nowrap;
+      display: block;
+      text-align: center;
+      transition: background 0.3s;
+    }
+
+    .topnav .nav-link:hover {
+      background: rgba(0, 0, 0, 0.1);
+    }
+
+    .topnav a:hover {
+      text-decoration: none !important;
+    }
+    .modal {
+      z-index: 3002;
+      }
+    /* ===============================
+   4. MEGA MENU
+   =============================== */
+    .mega-menu {
+      display: none;
+      /* Oculto por defecto */
+      position: absolute;
+      /* Relativo a .top */
+      top: 100%;
+      /* Justo debajo de la topnav */
+      left: 0;
+      width: 100%;
+      max-height: 95vh;
+      /* Evita que se salga de la pantalla */
+      overflow-y: auto;
+      /* Scroll vertical si contenido largo */
+      background-color: #6699CC;
+      /* Mismo color que topnav */
+      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+      z-index: 2999;
+      /* < topnav (3001) */
+    }
+/* ===============================
+   4.1 MEGA MENU - DESKTOP FIX
+   =============================== */
+@media (min-width: 992px) {
+  .mega-menu {
+    position: absolute !important;  /* ✅ Sigue al padre sticky en lugar de quedarse fijo en pantalla */
+    top: 140px !important;        /* ✅ Altura exacta de tu header desktop */
+    left: 0;
+    width: 100%;
+    z-index: 2999;
+    /* Mantiene el resto de tus estilos: background, box-shadow, etc. */
+  }
+}
+    .mega-menu.show {
+      display: block;
+    }
+
+    /* 3. AJUSTE PARA MÓVIL (Garantizar que se vea) */
+    @media (max-width: 991px) {
+      .mega-menu {
+        /* Si en móvil el .top se queda fijo arriba,
+       aseguramos que el max-height sea estricto */
+        max-height: calc(100vh - 60px);
+        /* Ajusta según la altura de tu barra móvil */
+      }
+    }
+
+    /* Estado visible */
+    .mega-menu.show {
+      display: block;
+      opacity: 1;
+      transform: translateY(0);
+      pointer-events: auto;
+      /* Habilita interacción */
+    }
+
+    /* Contenedor interno */
+    .mega-menu-content {
+      padding: 24px 48px;
+    }
+
+    /* Botón cerrar */
+    .mega-close {
+      position: fixed;
+      top: 100px;
+      right: 20px;
+      font-size: 36px;
+      color: white;
+      background: transparent;
+      border: none;
+      cursor: pointer;
+      z-index: 6000;
+      /* Sobre todo incluso el menú */
+    }
+
+    /* Links */
+    .mega-menu a {
+      display: block;
+      padding: 4px 0;
+      color: #fff;
+      text-decoration: none;
+    }
+
+    .mega-menu a:hover {
+      color: #ccc;
+      text-decoration: underline;
+    }
+
+
+    .bco-saber-mas {
+      border: 3px solid white !important;
+      color: white !important;
+      /* Opcional: para que el texto también combine */
+    }
+
+    /* Si quieres que al pasar el mouse siga teniendo borde rojo */
+    .bco-saber-mas:hover {
+      border-color: white !important;
+      background-color: #6699cc !important;
+      color: white !important;
+    }
+
+    summary {
+      color: #673ab7 !important;
+      /* El color púrpura que consultaste */
+      cursor: pointer;
+      font-weight: bold;
+      outline: none;
+      /* Quita el recuadro azul al hacer clic en algunos navegadores */
+      list-style: none;
+      /* Opcional: quita la flecha predeterminada */
+    }
+
+    /* Efecto Hover (al pasar el ratón) */
+    summary:hover {
+      text-decoration: underline;
+      color: #a569bd;
+      /* Un tono de púrpura un poco más claro para el hover */
+    }
+
+    /* ===============================
+   GRID RESPONSIVO CENTRADO (ZOOM SAFE)
+   =============================== */
+    .tour-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(min(100%, 280px), 1fr));
+      gap: 2rem;
+      padding: 2rem 1rem;
+      margin-left: auto;
+      /* centro horizontal */
+      margin-right: auto;
+      /* centro horizontal */
+      max-width: 1200px;
+      box-sizing: border-box;
+      justify-items: center;
+      /* asegura que cada columna quede centrada */
+    }
+
+    /* ===============================
+   TARJETA
+   =============================== */
+    .tour-card {
+      border: 1px solid #ddd;
+      border-radius: 12px;
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      min-width: 0;
+      background: #fff;
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+      z-index: 1;
+      box-sizing: border-box;
+      width: 100%;
+      /* hace que la card ocupe todo el ancho de la columna */
+      max-width: 100%;
+      /* evita que se pase del grid */
+    }
+
+    /* Hover solo en dispositivos con mouse */
+    @media (hover: hover) {
+      .tour-card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+      }
+    }
+
+    /* ===============================
+   IMAGEN (PROPORCIONAL)
+   =============================== */
+    .tour-image {
+      aspect-ratio: 3 / 2;
+      overflow: hidden;
+      background: #f4f4f4;
+      flex-shrink: 0;
+    }
+
+    .tour-image img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+    }
+
+    /* ===============================
+   CONTENIDO
+   =============================== */
+    .tour-content {
+      padding: 1.5rem;
+      display: flex;
+      flex-direction: column;
+      flex-grow: 1;
+      min-width: 0;
+      box-sizing: border-box;
+    }
+
+    /* ===============================
+   BOTÓN / LINK
+   =============================== */
+    .tour-btn,
+    .tour-link {
+      margin-top: auto;
+      padding-top: 1rem;
+      font-weight: bold;
+      color: #007bff;
+      text-decoration: none;
+      border-top: 1px solid #eee;
+      text-align: left;
+      word-break: break-word;
+    }
+
+    .tour-btn:hover,
+    .tour-link:hover {
+      text-decoration: underline;
+    }
+
+    /* ===============================
+   ADAPTACIÓN EXTRA PARA MÓVILES
+   =============================== */
+    @media (max-width: 480px) {
+      .tour-grid {
+        gap: 1rem;
+        padding: 1rem;
+      }
+
+      .tour-content {
+        padding: 1rem;
+      }
+    }
+
+
+    /* Contenedor principal en vertical */
+.news-list-container {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+  max-width: 1000px;
+  margin: 0 auto;
+  padding: 20px;
+}
+
+/* La tarjeta ahora es un renglón horizontal */
+.news-row-card {
+  min-height: 300px;
+  display: grid;
+  grid-template-columns: 300px 1fr;
+  /* Imagen fija a la izquierda, resto texto */
+  background: white;
+  border: 1px solid #ddd;
+  border-radius: 12px;
+  overflow: hidden;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  z-index: 1;
+}
+
+.news-row-card:hover {
+  transform: translateX(10px);
+  /* Desplazamiento lateral sutil en lugar de subida */
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+}
+
+/* ========================================== */
+/* SECCIÓN DE LA FOTO CORREGIDA Y BLINDADA    */
+/* ========================================== */
+.news-row-image {
+  width: 300px;              /* Fuerza el ancho del contenedor */
+  min-width: 300px;          /* Evita que Grid lo colapse */
+  height: 100%;              /* Ocupa el alto total de la tarjeta (los 300px o más) */
+  background-color: #f5f5f5; /* Fondo para las franjas que sobren */
+  overflow: hidden;          /* Corta cualquier intento de salirse */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.news-row-image picture {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.news-row-image img {
+  width: 100% !important;
+  height: 100% !important;
+  max-width: 100% !important;
+  max-height: 100% !important;
+  object-fit: contain !important; /* Fuerza a que la foto de OpenGraph quepa completa */
+}
+/* ========================================== */
+
+/* Contenido del renglón */
+.news-row-content {
+  padding: 1.5rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.news-meta {
+  font-size: 0.85rem;
+  color: #888;
+  margin-bottom: 0.5rem;
+}
+
+.news-row-content h2 {
+  margin: 0 0 10px 0;
+  font-size: 1.5rem;
+  color: #333;
+}
+
+.news-row-content p {
+  color: #555;
+  line-height: 1.6;
+  margin-bottom: 1rem;
+}
+
+.news-row-link {
+  font-weight: bold;
+  color: #007bff;
+  text-decoration: none;
+  font-size: 0.9rem;
+}
+
+/* Responsivo: Si la pantalla es pequeña, vuelve a ser vertical */
+@media (max-width: 768px) {
+  .news-row-card {
+    grid-template-columns: 1fr;
+  }
+
+  .news-row-image {
+    width: 100% !important;
+    min-width: 100% !important;
+    height: 200px !important;
+  }
+}
+
+    /* Contenedor principal de la paginación */
+    .pagination {
+      display: flex;
+      /* Alinea los elementos (li) horizontalmente */
+      justify-content: center;
+      /* Centra la paginación en la página */
+      list-style: none;
+      /* Elimina los puntos de la lista */
+      padding: 0;
+      margin: 20px 0;
+    }
+
+    /* Estilo para cada enlace (número de página o botón) */
+    .pagination li a,
+    .pagination li span {
+      display: block;
+      padding: 8px 12px;
+      text-decoration: none;
+      border: 1px solid #ddd;
+      color: #007bff;
+      margin: 0 4px;
+      border-radius: 5px;
+      /* Bordes redondeados */
+      transition: background-color 0.3s;
+    }
+
+    /* Estilo para el enlace de la página activa (la actual) */
+    .pagination li.active a,
+    .pagination li a:hover:not(.active) {
+      background-color: #007bff;
+      /* Fondo azul para la página actual o al pasar el ratón */
+      color: white;
+      border-color: #007bff;
+    }
+
+    /* Estilo para enlaces inactivos (ej. botón "Anterior" en la primera página) */
+    .pagination li.disabled span {
+      color: #aaa;
+      cursor: not-allowed;
+      background-color: #f4f4f4;
+    }
+
+
+    /* Contenedor principal en cuadrícula */
+    .post-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 2rem;
+      padding: 2rem;
+      max-width: 1200px;
+      margin: 0 auto;
+      /* Centrado automático */
+    }
+
+    /* Diseño de la Tarjeta */
+    .post-card {
+      background: #fff;
+      border-radius: 12px;
+      overflow: hidden;
+      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+      transition: transform 0.3s ease;
+    }
+
+    .post-card:hover {
+      transform: translateY(-5px);
+      /* Efecto de elevación */
+    }
+
+    .post-img {
+      width: 100%;
+      height: 200px;
+      object-fit: cover;
+    }
+
+    .post-content {
+      padding: 1.5rem;
+    }
+
+    .post-content h2 {
+      font-size: 1.5rem;
+      margin: 0.5rem 0;
+      font-family: 'Inter', sans-serif;
+      /* Tipografía limpia */
+    }
+
+    .post-content a {
+      text-decoration: none;
+      color: #333;
+    }
+
+/* ==========================================
+   TABLA DE CONTENIDOS DESPLEGABLE
+   ========================================== */
+
+/* Scroll suave al navegar entre anclas */
+html {
+  scroll-behavior: smooth;
+}
+
+/* Evita que una navbar fija tape el título destino */
+h2,
+h3,
+h4 {
+  scroll-margin-top: 60px; /* Ajusta según la altura de tu header */
+}
+
+/* ==========================================
+   CONTENEDOR PRINCIPAL
+   ========================================== */
+
+.toc-desplegable {
+  background-color: #f8f9fa;
+  border: 1px solid #e0e0e0;
+  border-radius: 8px;
+  padding: 1rem;
+  margin: 2rem 0;
+  transition: all 0.3s ease;
+}
+
+.toc-desplegable:hover {
+  border-color: #cfcfcf;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+}
+
+/* ==========================================
+   SUMMARY (CABECERA)
+   ========================================== */
+
+.toc-desplegable summary {
+  font-weight: 700;
+  color: #333;
+  cursor: pointer;
+  outline: none;
+  list-style: none;
+}
+
+/* Oculta marcador nativo en Chrome/Safari */
+.toc-desplegable summary::-webkit-details-marker {
+  display: none;
+}
+
+/* Flecha personalizada */
+.toc-desplegable summary::before {
+  content: "▶";
+  display: inline-block;
+  margin-right: 0.5rem;
+  transition: transform 0.3s ease;
+  font-size: 0.9rem;
+}
+
+/* Flecha girada cuando está abierto */
+.toc-desplegable[open] summary::before {
+  transform: rotate(90deg);
+}
+
+/* Estado abierto */
+.toc-desplegable[open] {
+  background-color: #ffffff;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+}
+
+/* ==========================================
+   NAVEGACIÓN INTERNA
+   ========================================== */
+
+.toc-desplegable nav {
+  margin-top: 1rem;
+  border-top: 1px solid #eeeeee;
+  padding-top: 1rem;
+}
+
+.toc-desplegable nav a {
+  display: block;
+  padding: 0.35rem 0;
+  color: #444;
+  text-decoration: none;
+  transition:
+    color 0.2s ease,
+    padding-left 0.2s ease;
+}
+
+.toc-desplegable nav a:hover {
+  color: #0d6efd;
+  padding-left: 6px;
+}
+
+/* ==========================================
+   RESALTAR SECCIÓN DESTINO
+   ========================================== */
+
+:target {
+  animation: highlightTarget 2s ease;
+}
+
+@keyframes highlightTarget {
+  0% {
+    background-color: #fff3cd;
+  }
+
+  100% {
+    background-color: transparent;
+  }
+}
+
+    .fb-follow-btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      /* CENTRADO INTERNO: Alinea icono y texto al medio */
+      background-color: #0866FF;
+      color: white;
+      text-decoration: none;
+      font-family: Arial, sans-serif;
+      font-weight: bold;
+      font-size: 24px;
+      padding: 12px 56px;
+      border-radius: 10px;
+      transition: background-color 0.3s ease;
+
+      /* Esto asegura que si el botón llega a ocupar todo el ancho, se mantenga al centro */
+      margin-left: auto;
+      margin-right: auto;
+    }
+
+    .fb-follow-btn svg {
+      width: 24px;
+      height: 24px;
+      fill: white;
+      margin-right: 12px;
+      /* Espacio entre icono y texto */
+      display: block;
+      /* Quita espacios residuales de línea de base */
+    }
+
+
+    /* El fondo (Backdrop) */
+    .follow-modal {
+      display: none;
+      position: fixed;
+      z-index: 9999;
+      /* Valor alto para que esté encima de todo */
+      padding-top: 100px;
+      left: 0;
+      top: 0;
+      width: 100%;
+      height: 100%;
+      overflow: auto;
+      background-color: rgba(0, 0, 0, 0.5);
+      /* Negro con opacidad */
+    }
+
+    .follow-modal-header {
+      padding: 20px;
+      background-color: #6699cc;
+      color: white;
+    }
+
+    /* El cuadro blanco */
+    .follow-modal-content {
+      background-color: #fefefe;
+      margin: auto;
+      padding: 0px;
+      border: 1px solid #888;
+      width: 80%;
+      max-width: 500px;
+      /* Ancho máximo para que no se vea gigante */
+      border-radius: 10px;
+      color: #000;
+    }
+
+    /* El botón de cerrar (X) */
+    .follow-modal-close {
+      color: lightsteelblue;
+      float: right;
+      font-size: 36px;
+      font-weight: bold;
+      cursor: pointer;
+      /* Crucial para que el usuario sepa que cierra */
+    }
+
+    .follow-modal-close:hover {
+      color: #fff;
+    }
+
+    /* Esto aplica a todos tus botones de Bootstrap */
+    .btn {
+      transition: all 0.3s ease !important;
+      /* Para que la sombra aparezca suave */
+    }
+
+      {
+      /* horizontal | vertical | desenfoque | color (RGBA para transparencia) */
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+      transition: all 0.3s ease;
+      /* Para que el cambio sea suave */
+    }
+
+    .btn-sombra:hover {
+      box-shadow: 0 8px 15px rgba(0, 0, 0, 0.2);
+      transform: translateY(-2px);
+      /* El botón sube un poquito al tocarlo */
+    }
+
+    .btn-publicaciones,
+    .tendencias-links a {
+      text-decoration: none;
+      color: white;
+      display: block;
+    }
+
+    .btn-publicaciones:hover {
+      text-decoration: underline;
+    }
+
+    .frase-carrusel {
+      font-family: 'Playfair Display', serif;
+      font-style: italic !important;
+    }
+
+    .throbbing-hrt {
+      font-size: 24px;
+      display: inline-block;
+      -webkit-animation: latido 1s infinite;
+      animation: latido 1s infinite;
+    }
+
+    @-webkit-keyframes latido {
+      0% {
+        -webkit-transform: scale(1);
+        transform: scale(1);
+      }
+
+      50% {
+        -webkit-transform: scale(1.2);
+        transform: scale(1.2);
+      }
+
+      100% {
+        -webkit-transform: scale(1);
+        transform: scale(1);
+      }
+    }
+
+    @keyframes latido {
+      0% {
+        transform: scale(1);
+      }
+
+      50% {
+        transform: scale(1.2);
+      }
+
+      100% {
+        transform: scale(1);
+      }
+    }
+
+    /* ===============================
+   3. NAVBAR AZUL (STICKY TOP 0)
+   =============================== */
+    /* Botón limpio */
+    .navbar-toggler {
+      background: none !important;
+      border: none;
+      box-shadow: none;
+    }
+
+    /* contenedor */
+    .burger {
+      width: 26px;
+      height: 18px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+    }
+
+    /* líneas */
+    .burger span {
+      display: block;
+      height: 3px;
+      width: 100%;
+      background: #fff;
+      border-radius: 3px;
+
+      transition:
+        transform .35s cubic-bezier(.4, 0, .2, 1),
+        opacity .25s ease;
+    }
+
+    /* ===== ESTADO X ===== */
+
+    .navbar-toggler.open .burger span:nth-child(1) {
+      transform: translateY(7.5px) rotate(45deg);
+    }
+
+    .navbar-toggler.open .burger span:nth-child(2) {
+      opacity: 0;
+    }
+
+    .navbar-toggler.open .burger span:nth-child(3) {
+      transform: translateY(-7.5px) rotate(-45deg);
+    }
+
+    /* Estado base: oculto */
+    .tagline {
+      opacity: 0;
+      transform: translateY(-8px);
+      transition: opacity .35s ease, transform .35s ease;
+      pointer-events: none;
+    }
+
+    /* Estado visible */
+    .tagline.show {
+      opacity: 1;
+      transform: translateY(0);
+      pointer-events: auto;
+    }
+
+    .tagline-text {
+      color: #fff;
+      font-weight: 600;
+      letter-spacing: .5px;
+      font-size: 2rem;
+    }
+
+    #mobileTagline {
+      opacity: 0;
+      transform: translateY(-10px);
+      transition:
+        opacity 1.5s cubic-bezier(.22, .61, .36, 1),
+        transform 1.5s cubic-bezier(.22, .61, .36, 1);
+
+      pointer-events: none;
+    }
+
+    #mobileTagline.show {
+      opacity: 1;
+      transform: translateY(0);
+      pointer-events: auto;
+    }
+
+    /* ===============================
+   5. AJUSTES RESPONSIVOS (MÓVIL)
+   =============================== */
+    @media (max-width: 991.98px) {
+
+      /* Header compacto */
+      .center-logo-box {
+        height: 55px !important;
+      }
+
+      .top {
+        top: -55px !important;
+        /* Debe coincidir con height móvil */
+      }
+
+      .logo-img {
+        height: 35px !important;
+        width: 35px !important;
+      }
+
+      /* Navbar vertical */
+      .navbar-nav {
+        flex-direction: column !important;
+        align-items: flex-start !important;
+      }
+
+      .topnav .nav-link {
+        text-align: left !important;
+        padding-left: 20px !important;
+        width: 100%;
+      }
+
+      .topnav-icons {
+        justify-content: flex-start !important;
+        padding-left: 20px !important;
+      }
+      /* Si el menú tiene la clase 'show' (que Bootstrap añade al hacer clic), lo obligamos a verse */
+  #offcanvasNavbar.show {
+    transform: none !important;
+    visibility: visible !important;
+    display: block !important;
+    opacity: 1 !important;
+    z-index: 999999 !important;
+  }
+      /* Offcanvas móvil */
+      .offcanvas.offcanvas-start {
+        width: max-content !important;
+        min-width: 250px;
+        max-width: 80vw;
+        padding-right: 1.5rem;
+        height: auto !important;
+        max-height: 90vh;
+        margin: 10px;
+        border-radius: 15px;
+        bottom: auto !important;
+      }
+
+      .offcanvas-body {
+        padding-top: 1rem;
+        padding-bottom: 1rem;
+      }
+
+      /* Mega-menu móvil: posición FIXED + top dinámico calculado con JS */
+      .mega-menu {
+        position: fixed !important;
+        /* evita solapamiento con header sticky */
+        left: 0;
+        width: 100%;
+        z-index: 4000;
+      }
+    }
+
+    /* ===============================
+   6. Desktop
+   =============================== */
+    @media (min-width: 992px) {
+      .navbar-nav {
+        flex-direction: row !important;
+        justify-content: flex-start !important;
+        padding-left: 20px;
+      }
+    }
+
+    /* Clase de fondo azul personalizado */
+    .bg-blue-custom {
+      background-color: #6699CC !important;
+    }
+
+    .content-inner {
+      padding: 16px 60px 32px !important;
+    }
+
+    .breadcrumbs .fa-home {
+      color: #074b83;
+      /* Color de la casita */
+      font-size: 1.5em;
+      /* Un poco más grande */
+    }
+
+    .breadcrumbs li a:hover .fa-home {
+      color: #007bff;
+      /* Color al pasar el ratón */
+    }
+
+
+    .breadcrumbs ol {
+      list-style: none;
+      padding: 0;
+      margin-top: -5px;
+      /* Sube los breadcrumbs 5 píxeles */
+      display: flex;
+      /* Esto los pone en horizontal */
+      flex-wrap: wrap;
+    }
+
+    .breadcrumbs li a:hover {
+      color: #007bff;
+      /* Color al pasar el ratón */
+      display: inline;
+      font-size: 1.0em;
+    }
+
+    /* Añade el separador automáticamente entre elementos */
+    .breadcrumbs li+li:before {
+      content: "/";
+      /* El símbolo / seguido de un espacio */
+      padding: 0 5px;
+      color: #ccc;
+    }
+
+    .breadcrumbs li a {
+      text-decoration: none;
+      color: #074b83;
+    }
+
+    .breadcrumbs li.active {
+      color: #666;
+      pointer-events: none;
+      /* El último elemento no es clickable */
+    }
+
+    a:hover {
+      text-decoration: underline;
+    }
+
+    /* Clase Maestra para los enlaces */
+    .link-custom {
+      color: #212529 !important;
+      /* Negro Bootstrap */
+      text-decoration: none !important;
+      transition: all 0.2s ease-in-out;
+    }
+
+    .link-custom:hover {
+      text-decoration: underline !important;
+      text-decoration-color: #6699CC !important;
+      /* Tu azul */
+      text-decoration-thickness: 2px;
+      text-underline-offset: 4px;
+      color: #212529 !important;
+      /* Mantiene el texto negro en hover */
+    }
+
+    /* Conversión exacta de los estilos inline de tu div principal */
+    .caja-terapia-personalizada {
+      background-color: #fdf5e6 !important;
+      border: 2px solid #e6dbb9 !important;
+      border-radius: 15px !important;
+      color: #6699CC !important;
+      overflow: hidden;
+      display: block;
+    }
+
+    /* Estilo para tu botón específico */
+    .btn-saber-mas {
+      color: #6699CC !important;
+      border-color: #6699CC !important;
+    }
+
+    /* Efecto hover opcional para mantener la interactividad */
+    .btn-saber-mas:hover {
+      background-color: #6699CC !important;
+      color: #fdf5e6 !important;
+    }
+
+    /* Fondo azul y texto blanco */
+    .polvo-estelar {
+      background-color: #6699CC;
+      font-weight: bold !important;
+      color: #fff;
+    }
+
+    #carousel-content p {
+      font-size: 1rem;
+      font-style: italic !important;
+      /* italicas */
+    }
+
+    #prev-btn,
+    #next-btn {
+      width: 40px;
+      height: 40px;
+      font-size: 1.2rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 0;
+    }
+
+    .bg-custom-blue {
+      background-color: #6699CC !important;
+    }
+
+    /* Contenedor del widget */
+    /* 1. EL CONTENEDOR: Cambiamos a flex para asegurar que el contenido respire */
+    .wa-widget {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      position: relative;
+      width: 100%;
+      min-height: 55px;
+      overflow: visible;
+      contain: none;
+      z-index: 2000;
+    }
+
+    .wa-btn {
+      display: block;
+      position: relative;
+      width: 55px;
+      height: 55px;
+      background-color: #25D366;
+      border-radius: 50%;
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+      overflow: hidden;
+    }
+
+    .wa-btn svg {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      width: 32px;
+      height: 32px;
+      fill: white;
+      pointer-events: none;
+    }
+
+    /* Tooltip */
+    .wa-tip {
+      position: absolute;
+      top: -45px;
+      left: 50%;
+      transform: translateX(-50%);
+      display: inline-block;
+      white-space: nowrap;
+      background-color: #ffffff;
+      color: #333333;
+      padding: 6px 12px;
+      border-radius: 6px;
+      font-size: 13px;
+      font-weight: bold;
+      line-height: 1.2;
+      opacity: 0;
+      visibility: hidden;
+      transition: opacity 0.3s, transform 0.3s;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+      z-index: 99999;
+    }
+
+    .wa-tip::after {
+      content: "";
+      position: absolute;
+      top: 100%;
+      left: 50%;
+      transform: translateX(-50%);
+      border-width: 6px;
+      border-style: solid;
+      border-color: #ffffff transparent transparent transparent;
+    }
+
+    .wa-widget:hover .wa-tip {
+      opacity: 1;
+      visibility: visible;
+      transform: translateX(-50%) translateY(0);
+    }
+
+    .btn-custom-compact {
+      background-color: #6699CC !important;
+      color: white !important;
+      border-radius: 50rem !important;
+      padding: 8px 15px !important;
+      font-size: 0.85rem !important;
+      font-weight: 600;
+      text-transform: uppercase;
+      line-height: 1.2;
+    }
+
+
+    .widget-blog-autor {
+      padding: 20px;
+      border-radius: 15px;
+      /* Bordes redondeados */
+      background-color: #6699CC;
+      /* azul indigo */
+      box-shadow: 4px 4px 10px rgba(0, 0, 0, 0.1);
+      /* Sombra suave */
+      max-width: 400px;
+      text-align: center;
+      margin: 20px auto;
+    }
+
+    .social-icon-tint {
+      color: #87CEFA;
+    }
+
+    .sharethis a:hover {
+      color: inherit;
+    }
+
+    .fa-facebook-square,
+    .fa-twitter-square,
+    .fa-google-plus-square {
+      padding: 0 8px;
+    }
+
+    .fa-youtube-square:hover {
+      color: #c4302b;
+    }
+
+    .fa-facebook-square:hover,
+    .fa-thumbs-o-up:hover {
+      color: #3B5998;
+    }
+
+    .fa-rss-square:hover {
+      color: #ff6e00;
+    }
+
+    .fa-twitter-square:hover {
+      color: #55acee;
+    }
+
+    .fa-google-plus-square:hover {
+      color: #dd4b39;
+    }
+
+    /* ==========================================
+   BLOQUE CONTENEDOR RELACIONADOS
+   ========================================== */
+.sidebar-related {
+  background-color: #f8f9fa;
+  border: 1px solid #e0e0e0;
+  border-radius: 8px;
+  padding: 1rem;
+  margin: 2rem 0;
+  transition: all 0.3s ease;
+}
+
+.sidebar-related:hover {
+  border-color: #cfcfcf;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+  background-color: #ffffff; /* Efecto suave de aclarado al hacer hover en la caja */
+}
+
+/* ==========================================
+   TÍTULO DE LA SECCIÓN (Mismo estilo que tu summary)
+   ========================================== */
+.sidebar-title {
+  font-size: 1rem; /* Ajustado para que encaje bien en barra lateral */
+  font-weight: 700;
+  color: #333;
+  margin-top: 0;
+  margin-bottom: 1rem;
+  border-bottom: 1px solid #eeeeee;
+  padding-bottom: 1rem;
+}
+
+/* ==========================================
+   LISTA DE ENLACES
+   ========================================== */
+.related-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.related-list li {
+  margin: 0;
+  padding: 0;
+}
+
+.related-list a {
+  display: block;
+  padding: 0.35rem 0;
+  color: #444;
+  text-decoration: none;
+  font-size: 0.95rem;
+  transition:
+    color 0.2s ease,
+    padding-left 0.2s ease;
+}
+
+.related-list a:hover {
+  color: #0d6efd; /* Tu azul de acento */
+  padding-left: 6px; /* Desplazamiento lateral sutil idéntico a tu TOC */
+}
+
+
+/* ==========================================================================
+   RELATED-CARRUSEL (Contenedor)
+   ========================================================================== */
+.related-carousel .auto-carousel {
+  position: relative;
+  width: 100%;
+  overflow: hidden;
+}
+
+/* ==========================================================================
+   RIEL HORIZONTAL (motor scroll)
+   ========================================================================== */
+.related-carousel .auto-carousel ul {
+  display: flex;
+  flex-wrap: nowrap;
+  overflow-x: auto;
+
+  scroll-behavior: smooth;
+  scroll-snap-type: x mandatory;
+  -webkit-overflow-scrolling: touch;
+
+  list-style: none;
+  padding: 0;
+  margin: 0;
+
+  touch-action: pan-x;
+}
+
+/* ocultar scrollbar */
+.related-carousel .auto-carousel ul::-webkit-scrollbar {
+  display: none;
+}
+.related-carousel .auto-carousel ul {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
+/* ==========================================================================
+   SLIDES
+   ========================================================================== */
+.related-carousel .auto-carousel ul li {
+  flex: 0 0 100%;
+  width: 100%;
+
+  list-style: none;
+  scroll-snap-align: start;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  box-sizing: border-box;
+}
+
+.related-carousel .auto-carousel ul li img {
+  width: 100%;
+  height: auto;
+  display: block;
+  object-fit: cover;
+}
+
+/* ==========================================================================
+   BULLETS
+   ========================================================================== */
+.related-carousel .auto-carousel ol {
+  list-style: none;
+  padding: 0;
+  margin: 0.5rem 0 0;
+
+  display: flex;
+  justify-content: center;
+  gap: 8px;
+}
+
+.related-carousel .auto-carousel ol li a {
+  display: block;
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: rgba(255,255,255,0.4);
+  transition: background-color 0.2s;
+}
+
+.related-carousel .auto-carousel ol li.selected a {
+  background: #fff;
+}
+
+/* ==========================================================================
+   FLECHAS
+   ========================================================================== */
+.related-carousel .auto-carousel .prev,
+.related-carousel .auto-carousel .next {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+
+  font-size: 2rem;
+  color: #fff;
+
+  cursor: pointer;
+  user-select: none;
+
+  z-index: 10;
+
+  padding: 0 10px;
+  background: rgba(0,0,0,0.2);
+  border-radius: 4px;
+}
+
+.related-carousel .auto-carousel .prev { left: 5px; }
+.related-carousel .auto-carousel .next { right: 5px; }
+

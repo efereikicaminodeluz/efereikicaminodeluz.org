@@ -1,0 +1,141 @@
+<button class="back2top btn-sombra"></button>
+
+<div class="top">
+  <div class="center-logo-box">
+    <a class="logo-texto espacia-dotexto-logo notranslate" href="https://efereikicaminodeluz.org"
+      style="font-size:3.5vw;">
+      <img src="/img/Logo_EFE.png" alt="logotipo" class="logo-img">
+      <strong>Escuela de Formación Espiritual</strong>
+    </a>
+  </div>
+  {{ partial "megamenus.html" . }}
+</div>
+
+<!-- NAVBAR -->
+<nav class="navbar navbar-dark navbar-expand-lg topnav p-0 shadow-sm">
+  <div class="container-fluid p-0 position-relative">
+
+    <!-- Branding móvil -->
+    <div class="position-absolute top-50 start-50 translate-middle d-lg-none">
+      <span id="mobileTagline" class="tagline-text btn-sombra text-white text-nowrap mb-0 fs-3">
+        CONEXIÓN ESPIRITUAL©
+      </span>
+    </div>
+
+    <!-- Hamburguesa -->
+    <button class="navbar-toggler btn-sombra m-2 ms-auto" type="button"
+      data-bs-toggle="offcanvas" data-bs-target="#offcanvasNavbar"
+      aria-controls="offcanvasNavbar">
+
+      <span class="burger">
+        <span></span>
+        <span></span>
+        <span></span>
+      </span>
+
+    </button>
+
+    <!-- OFFCANVAS -->
+    <div class="offcanvas offcanvas-start bg-blue-custom" tabindex="-1" id="offcanvasNavbar">
+
+      <div class="offcanvas-header d-lg-none">
+        <h5 class="offcanvas-title text-white">Menú</h5>
+        <button type="button" class="btn-close btn-close-white" data-bs-dismiss="offcanvas"></button>
+      </div>
+
+     <div class="offcanvas-body">
+    <ul class="navbar-nav me-auto w-100">
+
+        <li class="nav-item btn-sombra fa-lg">
+            <a href="/" class="nav-link fa fa-home" aria-label="Inicio"></a>
+        </li>
+
+        <li class="nav-item btn-sombra">
+            <a class="nav-link" href="/acerca-de/">NOSOTROS</a>
+        </li>
+
+          <li class="nav-item btn-sombra">
+            <a class="nav-link" href="/tour/">TOUR</a>
+          </li>
+
+          <li class="nav-item btn-sombra">
+            <a class="nav-link" href="/eventos/">EVENTOS</a>
+          </li>
+
+          <li class="nav-item btn-sombra">
+            <a class="nav-link" href="javascript:void(0)"
+              onclick="toggleMegaMenu('nav_terapia', event)">
+              TERAPIA <i class="fa fa-caret-down"></i>
+            </a>
+          </li>
+
+          <li class="nav-item btn-sombra">
+            <a class="nav-link" href="/aprende/">APRENDE</a>
+          </li>
+
+          <li class="nav-item btn-sombra">
+            <a class="nav-link" href="/formacion/">FORMACIÓN</a>
+          </li>
+
+          <li class="nav-item btn-sombra">
+            <a class="nav-link" href="/conexion/">CONEXIÓN</a>
+          </li>
+
+          <li class="nav-item btn-sombra ms-lg-auto">
+            <a href="#search" data-bs-toggle="modal" class="nav-link fa fa-search"></a>
+          </li>
+
+        </ul>
+      </div>
+    </div>
+
+  </div>
+</nav>
+
+
+
+<!-- SLIDER -->
+<section>
+  <div id="headerCarousel" class="carousel slide carousel-fade" data-bs-ride="carousel">
+
+    <div class="carousel-inner">
+
+      {{ $slides := slice "images/Header-RCL.jpg" "images/Header-RCL.jpg" }}
+
+      {{ range $index, $slide := $slides }}
+        {{ $img := resources.Get . }}
+
+        {{ if $img }}
+          {{ $large := $img.Resize "1200x q75" }}
+          {{ $small := $img.Resize "600x q75" }}
+          {{ $fallback := $img.Resize "1200x webp q75" }}
+
+          <div class="carousel-item {{ if eq $index 0 }}active{{ end }}"
+               data-bs-interval="3000">
+
+            <picture>
+
+              <source
+                srcset="{{ $small.RelPermalink }} 600w, {{ $large.RelPermalink }} 1200w"
+                sizes="100vw"
+                type="image/avif">
+
+              <img
+                src="{{ $fallback.RelPermalink }}"
+                class="d-block w-100"
+                alt="Slide {{ $index }}"
+                style="height:auto !important; max-height:70vh;"
+                width="{{ $large.Width }}"
+                height="{{ $large.Height }}"
+                loading="{{ if eq $index 0 }}eager{{ else }}lazy{{ end }}">
+
+            </picture>
+
+          </div>
+        {{ end }}
+      {{ end }}
+
+    </div>
+
+  </div>
+</section>

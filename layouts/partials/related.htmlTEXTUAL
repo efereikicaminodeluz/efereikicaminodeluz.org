@@ -1,0 +1,39 @@
+{{ $related := .Site.RegularPages.Related . | first 5 }}
+
+{{ with $related }}
+
+<aside class="sidebar-related mb-4 mx-auto btn-sombra"
+       style="max-width:230px;background:#6699CC;border-radius:20px;overflow:hidden;">
+
+
+  <h3 class="sidebar-title m-0 d-block text-center btn-publicaciones text-white py-3 text-decoration-none">
+    <strong>Explora contenidos relacionados</strong>
+  </h3>
+
+
+  <ul class="related-list p-3 text-center">
+
+    {{ range . }}
+
+      <li>
+        <a href="{{ .RelPermalink }}"
+           title="{{ .Title }}"
+           class="text-white d-block">
+
+          {{ if .Params.nombre_corto }}
+            {{ .Params.nombre_corto | truncate 20 }}
+          {{ else }}
+            {{ .Title | truncate 20 }}
+          {{ end }}
+
+        </a>
+      </li>
+
+    {{ end }}
+
+  </ul>
+
+
+</aside>
+
+{{ end }}

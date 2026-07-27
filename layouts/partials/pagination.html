@@ -1,0 +1,47 @@
+{{/* Guardamos la referencia al contexto principal (la página que hace la llamada) */}}
+{{ $mainContext := . }}
+
+<ul class="pagination" style="display: flex; list-style: none; padding: 0; justify-content: center; align-items: center;">
+  {{ if .Paginator.HasPrev }}
+  <li class="page-item" style="margin: 0 5px;">
+    <a href="{{ .Paginator.First.URL }}" class="page-link" title="primero" style="text-decoration: none; padding: 5px 10px; border: 1px solid #ddd;">
+      &laquo;&laquo;
+    </a>
+  </li>
+  <li class="page-item" style="margin: 0 5px;">
+    <a href="{{ .Paginator.Prev.URL }}" class="page-link" title="atras" style="text-decoration: none; padding: 5px 10px; border: 1px solid #ddd;">
+      &laquo;
+    </a>
+  </li>
+  {{ end }}
+
+  {{/* Números de página: usamos $mainContext para referenciar la página actual */}}
+  {{ range .Paginator.Pagers }}
+    {{ $currentPageNumber := $mainContext.Paginator.PageNumber }}
+
+    {{ if or (eq .PageNumber $currentPageNumber) (eq .PageNumber 1) (eq .PageNumber .Paginator.TotalPages) (and (gt .PageNumber (sub $currentPageNumber 2)) (lt .PageNumber (add $currentPageNumber 2))) }}
+      <li class="page-item{{ if eq .PageNumber $currentPageNumber }} active{{ end }}" style="margin: 0 5px; {{ if eq .PageNumber $currentPageNumber }} font-weight: bold; {{ end }}">
+        <a href="{{ .URL }}" class="page-link" style="text-decoration: none; padding: 5px 10px; border: 1px solid #ddd; {{ if eq .PageNumber $currentPageNumber }} background-color: #007bff; color: white; border-color: #007bff; {{ end }}">
+          {{ .PageNumber }}
+        </a>
+      </li>
+    {{ else if or (eq .PageNumber (sub $currentPageNumber 3)) (eq .PageNumber (add $currentPageNumber 3)) }}
+      <li class="page-item disabled" style="margin: 0 5px;">
+        <span class="page-link" style="padding: 5px 10px; border: 1px solid #ddd; color: #aaa;">...</span>
+      </li>
+    {{ end }}
+  {{ end }}
+
+  {{ if .Paginator.HasNext }}
+  <li class="page-item" style="margin: 0 5px;">
+    <a href="{{ .Paginator.Next.URL }}" class="page-link" title="adelante" style="text-decoration: none; padding: 5px 10px; border: 1px solid #ddd;">
+      &raquo;
+    </a>
+  </li>
+  <li class="page-item" style="margin: 0 5px;">
+    <a href="{{ .Paginator.Last.URL }}" class="page-link" title="ultimo" style="text-decoration: none; padding: 5px 10px; border: 1px solid #ddd;">
+      &raquo;&raquo;
+    </a>
+  </li>
+  {{ end }}
+</ul>

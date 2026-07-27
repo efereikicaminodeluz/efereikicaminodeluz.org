@@ -1,0 +1,101 @@
+{{ $relatedJS := resources.Get "js/related-carrusel.js" }}
+<script src="{{ $relatedJS.RelPermalink }}" defer></script>
+
+{{ $relatedCSS := resources.Get "css/related-carrusel.css" | resources.Minify }}
+<link rel="stylesheet" href="{{ $relatedCSS.RelPermalink }}">
+
+{{ $related := .Site.RegularPages.Related . | first 5 }}
+
+{{ with $related }}
+
+<aside class="sidebar-related mb-4 mx-auto btn-sombra"
+       style="max-width:230px;background:#6699CC;border-radius:20px;overflow:hidden;">
+
+  <h3 class="sidebar-title m-0 d-block text-center btn-publicaciones text-white py-3 text-decoration-none">
+    <strong>Explora contenidos relacionados</strong>
+  </h3>
+
+  <!-- DESKTOP (tarjetas verticales) -->
+  <ul class="related-list p-3 d-none d-lg-block">
+
+    {{ range . }}
+      {{ $page := . }}
+      {{ $img := index ($page.Resources.ByType "image") 0 }}
+
+      <li style="margin-bottom:12px;">
+
+        <a href="{{ $page.RelPermalink }}"
+           class="text-white d-block">
+
+          {{ with $img }}
+            {{ $thumb := .Resize "160x" }}
+            <img src="{{ $thumb.RelPermalink }}"
+                 alt="{{ $page.Title }}"
+                 style="width:100%; border-radius:12px; margin-bottom:6px;">
+          {{ end }}
+
+          <div style="font-size:0.85rem;">
+            {{ if $page.Params.nombre_corto }}
+              {{ $page.Params.nombre_corto | truncate 18 }}
+            {{ else }}
+              {{ $page.Title | truncate 18 }}
+            {{ end }}
+          </div>
+
+        </a>
+
+      </li>
+
+    {{ end }}
+
+  </ul>
+
+  <!-- MOBILE (AUTO-CAROUSEL real) -->
+  <div class="related-carousel">
+
+    <div class="auto-carousel d-block d-lg-none" duration="7000">
+
+      <ul>
+
+        {{ range $i, $page := . }}
+          {{ $img := index ($page.Resources.ByType "image") 0 }}
+
+          {{ if $img }}
+            {{ $thumb := $img.Resize "600x" }}
+
+            <li id="c0_slide{{ $i }}" data-url="{{ $page.RelPermalink }}">
+              <img src="{{ $thumb.RelPermalink }}"
+                   title="{{ $page.Title }}"
+                   alt="{{ $page.Title }}"
+                   style="width:100%;height:auto;display:block;">
+            </li>
+
+          {{ end }}
+        {{ end }}
+
+      </ul>
+
+      <ol>
+  {{ range $i, $page := . }}
+
+    {{ $img := index ($page.Resources.ByType "image") 0 }}
+
+    {{ if $img }}
+      <li>
+        <a href="#c0_slide{{ $i }}"></a>
+      </li>
+    {{ end }}
+
+  {{ end }}
+</ol>
+
+      <div class="prev">&lsaquo;</div>
+      <div class="next">&rsaquo;</div>
+
+    </div>
+
+  </div>
+
+</aside>
+
+{{ end }}

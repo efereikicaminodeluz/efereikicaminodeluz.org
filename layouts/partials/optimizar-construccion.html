@@ -1,0 +1,34 @@
+{{- $img := "" -}}
+{{- $src := .src -}}
+
+{{/* LOCALIZAR IMAGEN (Limpiando la ruta para assets) */}}
+{{- $rutaLimpia := strings.TrimPrefix "/" $src -}}
+{{- $img = resources.Get $rutaLimpia -}}
+
+{{- if $img -}}
+
+  {{/* PROCESAMIENTO (SIN AVIF PARA EVITAR ERRORES) */}}
+  {{- $large    := $img.Resize "1200x webp q75" -}}
+  {{- $small    := $img.Resize "600x webp q75" -}}
+  {{- $fallback := $img.Resize "1200x jpg q75" -}}
+
+  <picture>
+
+    <source
+      srcset="{{ $small.RelPermalink }} 600w, {{ $large.RelPermalink }} 1200w"
+      type="image/webp">
+
+    <img
+      src="{{ $fallback.RelPermalink }}"
+      width="{{ $large.Width }}"
+      height="{{ $large.Height }}"
+      style="max-width:100% !important; height:auto !important; display:block; margin:1.5rem auto;"
+      loading="lazy"
+      decoding="async"
+      alt="{{ .alt }}">
+
+  </picture>
+
+{{- else -}}
+  <p style="color:red;">Error: No se encontró la imagen en assets: {{ $src }}</p>
+{{- end -}}

@@ -1,0 +1,86 @@
+{{ define "main" }}
+
+<h2>Aqui estan los talleres y cursos gratuitos de Marcel Soto de manera actualizada y permanente...</h2>
+  <p><strong>Participa de las actividades de nuestra comunidad: Estamos en constante actividad de enseñanza, enseñanza y práctica.</strong></p>
+
+<p>Con amor compartimos este regalo: técnicas de sanación y expansión de la consciencia.</p>
+
+<p>
+Publicamos para que cada uno pueda desarrollar su Conexión Espiritual con el suministro infinito de la Fuente Original, permitiendo que esta experiencia se multiplique desde el interior hacia la vida de cada ser.
+</p>
+
+<p>
+<i>
+Somos simples vehículos de algo que está más allá de nuestro yo físico. Buscamos estar Aquí y Ahora, en este camino de aprendizaje donde a traves de la gestión emocional y la coherencia interior la Gracia Divina nos permite disolver nuestras contradicciones y todo lo que no somos, aprendiendo a fluir sin resistencia en este hermoso viaje.
+</i>
+</p>
+
+<p>
+✨ “Paz, salud y alegría para todos.” ✨
+</p>
+
+<hr style="height: 5px; background-color: blue; border: none;">
+
+{{/* FILTRADO ROBUSTO: Solo archivos dentro de la carpeta 'aprende' */}}
+{{ $paginasFiltradas := where site.RegularPages "Section" "aprende" }}
+
+{{/* Paginación */}}
+{{ $paginator := .Paginate ($paginasFiltradas.ByDate.Reverse) 6 }}
+
+<div class="tour-grid">
+
+  {{ range $paginator.Pages }}
+
+    <article class="tour-card">
+
+      <div class="tour-image">
+
+        {{ $imgResource := "" }}
+
+        {{ if .Params.image }}
+          {{ $imgResource = .Resources.GetMatch .Params.image }}
+        {{ end }}
+
+        {{ with $imgResource }}
+          {{ $webp := .Resize "600x400 webp q75 Center" }}
+
+          <picture>
+            <img src="{{ $webp.RelPermalink }}"
+                 alt="{{ .Params.alt | default .Title }}">
+          </picture>
+
+        {{ else }}
+
+          <img src="{{ "/img/default-thumbnail.png" | relURL }}"
+               alt="No disponible">
+
+        {{ end }}
+
+      </div>
+
+
+      <div class="tour-content">
+
+        <h2>{{ .Title }}</h2>
+
+        <p>{{ .Summary | plainify | truncate 150 }}</p>
+
+        <a href="{{ .RelPermalink }}" class="tour-link">
+          IR A {{ .Title | upper }} &rarr;
+        </a>
+
+      </div>
+
+    </article>
+
+  {{ end }}
+
+</div>
+
+
+{{/* Paginador */}}
+<div class="pagination-container" style="display: flex; justify-content: center; padding: 40px 0;">
+  {{ partial "pagination.html" . }}
+</div>
+
+{{ end }}

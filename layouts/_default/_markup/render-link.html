@@ -1,0 +1,11 @@
+{{- $isExternal := or (strings.HasPrefix .Destination "http") (strings.HasPrefix .Destination "//") -}}
+<a href="{{ .Destination | safeURL }}"
+   {{ if $isExternal }} target="_blank" rel="noopener noreferrer" {{ end }}
+   {{ with .Title }} title="{{ . }}" {{ end }}>
+   {{ .Text | safeHTML }}
+   {{- if $isExternal -}}
+     <!-- Clase para Font Awesome 4.7 -->
+     <i class="fa fa-external-link" aria-hidden="true" style="margin-left: 5px;"></i>
+   {{- end -}}
+</a>
+

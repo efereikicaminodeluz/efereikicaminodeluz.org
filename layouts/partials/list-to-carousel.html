@@ -1,0 +1,25 @@
+{{- $content := .Content -}}
+{{- $imageListPattern := `<ul>\s*(<li>\s*<img[^>]*>\s*</li>\s*)+</ul>` -}}
+{{- $imageLists := findRE $imageListPattern $content -}}
+
+{{- range $index, $il := $imageLists -}}
+  {{- $listItems := findRE `<li>\s*<img[^>]*>\s*</li>` $il -}}
+  {{- $items := `<ul>` -}}
+  {{- range $i, $li := $listItems -}}
+    {{/* Insertamos el ID necesario para el slider manteniendo el HTML del Render Hook */}}
+    {{- $item := $li | replaceRE `<li>` (printf `<li id="c%d_slide%d">` $index $i) -}}
+    {{- $items = print $items $item -}}
+  {{- end -}}
+  {{- $items = print $items `</ul>` -}}
+
+  {{- $indicators := `<ol>` -}}
+  {{- range $i, $li := $listItems -}}
+    {{- $indicators = print $indicators `<li><a href="#c` $index `_slide` $i `"></a></li>` -}}
+  {{- end -}}
+  {{- $indicators = print $indicators `</ol>` -}}
+
+  {{- $replacement := print `<div id="carousel_` $index `" class="auto-carousel" duration="7000">` $items $indicators `<div class="prev">&lsaquo;</div><div class="next">&rsaquo;</div></div>` -}}
+  {{- $content = replace $content $il $replacement -}}
+{{- end -}}
+
+{{- $content | safeHTML -}}

@@ -1,0 +1,50 @@
+{{ define "main" }}
+<h2>Bienvenido a nuestro mapa visual</h2>
+<p><strong>Selecciona una sección y descubre como miles de personas están transformando sus vidas.</strong></p>
+<span><i>Salud, paz, prosperidad, armonía con tus más próximos y amados... Esto y más al alcance de tu decisión, aprende cómo.</i></span>
+<hr style="height: 5px; background-color: blue; border: none;">
+
+<div class="tour-grid">
+
+  {{ $secciones := (where .Site.Sections "Section" "!=" "tour") }}
+  {{ $paginator := .Paginate $secciones 12 }}
+
+  {{ range $paginator.Pages }}
+    <article class="tour-card">
+
+      <div class="tour-image">
+        {{ $imgResource := "" }}
+
+        {{ if .Params.image }}
+          {{ $imgResource = .Resources.GetMatch .Params.image }}
+        {{ end }}
+
+        {{ with $imgResource }}
+          {{ $webp := .Fill "600x400 webp q75 Center" }}
+          <picture>
+            <img src="{{ $webp.RelPermalink }}"
+                 alt="{{ $.Title }}">
+          </picture>
+        {{ else }}
+          <div class="tour-fallback">
+            [ {{ .Title }} ]
+          </div>
+        {{ end }}
+      </div>
+
+      <div class="tour-content">
+        <h2>{{ .Title }}</h2>
+        <p>{{ .Summary | plainify | truncate 150 }}</p>
+        <a href="{{ .RelPermalink }}" class="tour-link">
+          IR A {{ .Title | upper }} &rarr;
+        </a>
+      </div>
+
+    </article>
+  {{ end }}
+</div>
+
+<div class="pagination-container">
+  {{ partial "pagination.html" . }}
+</div>
+{{ end }}

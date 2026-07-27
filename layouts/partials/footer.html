@@ -1,0 +1,13 @@
+{{ if and .IsPage .Params.leer_mas }}
+  {{ $js := resources.Get "js/text-expand.js" | minify | fingerprint }}
+  <script src="{{ $js.RelPermalink }}" integrity="{{ $js.Data.Integrity }}" defer></script>
+{{ end }}
+
+{{ if or .Params.lightbox .Params.gallery }}
+  {{ $js := resources.Get "js/lightbox.js" | minify | fingerprint }}
+  <script src="{{ $js.RelPermalink }}"></script>
+{{ end }}
+{{ if .Params.carrusel }}
+    {{ $js := resources.Get "js/auto-carousel.js" | minify | fingerprint }}
+    <script src="{{ $js.RelPermalink }}" integrity="{{ $js.Data.Integrity }}" defer></script>
+{{ end }}

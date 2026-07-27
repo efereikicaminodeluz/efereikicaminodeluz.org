@@ -1,0 +1,13 @@
+{{ define "main" }}
+  <div class="w3-container">
+    <h2>Técnicas de expansión de la consciencia.</h2>
+    <p><strong>Una visión cuántica y actual de las enseñanzas Védicas.</strong></p>
+    <hr style="height: 5px; background-color: blue; border: none;">
+
+    {{ if .Params.carrusel }}
+      {{ partial "home-carousel.html" . }}
+    {{ end }}
+
+    {{ .Content }}
+  </div>
+{{ end }}

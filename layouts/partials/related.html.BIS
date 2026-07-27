@@ -1,0 +1,19 @@
+{{ $related := .Site.RegularPages.Related . | first 5 }}
+{{ with $related }}
+<aside class="sidebar-related">
+  <h3 class="sidebar-title">Contenido Relacionado</h3>
+  <ul class="related-list">
+    {{ range . }}
+      <li>
+        <a href="{{ .RelPermalink }}" title="{{ .Title }}">
+          {{ if .Params.nombre_corto }}
+            {{ .Params.nombre_corto | truncate 20 }}
+          {{ else }}
+            {{ .Title | truncate 20 }}
+          {{ end }}
+        </a>
+      </li>
+    {{ end }}
+  </ul>
+</aside>
+{{ end }}

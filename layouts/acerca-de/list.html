@@ -1,0 +1,62 @@
+{{ define "main" }}
+<h2>Unidos en la determinación de despertar</h2>
+
+<p>Con amor compartimos este regalo: técnicas de sanación y expansión de la consciencia.</p>
+
+<p>
+<i>
+Somos simples vehículos de algo que está más allá de nuestro yo físico. Buscamos estar Aquí y Ahora, en este camino donde la gestión emocional y la coherencia interior nos permiten disolver nuestras contradicciones, aprendiendo a fluir sin resistencia, acompañándonos y compartiendo nuestras experiencias en este hermoso viaje.
+</i>
+</p>
+
+<p>
+Publicamos para que cada uno pueda desarrollar su Conexión Espiritual con el suministro infinito de la Fuente Original, permitiendo que esta experiencia se multiplique desde el interior hacia la vida de cada ser.
+</p>
+
+<p>
+✨ “Paz, salud y alegría para todos. Nos acompañamos, estudiamos y compartimos nuestras experiencias en esta comunidad, para que el Recuerdo de Quién Eres llegue a cada corazón, reconociendo en los demás la misma chispa de libertad, porque Somos Uno.” ✨
+</p>
+
+<hr style="height: 5px; background-color: blue; border: none;">
+
+{{/* FILTRADO ROBUSTO: Solo archivos dentro de la carpeta 'acerca-de' */}}
+{{ $paginasFiltradas := where site.RegularPages "Section" "acerca-de" }}
+
+<div class="tour-grid">
+
+  {{/* Aplicamos el orden y límite de 20 posts */}}
+  {{ range $paginasFiltradas.ByDate.Reverse | first 20 }}
+    <article class="tour-card">
+
+      <div class="tour-image">
+        {{ $imgResource := "" }}
+
+        {{ if .Params.image }}
+          {{ $imgResource = .Resources.GetMatch .Params.image }}
+        {{ end }}
+
+        {{ with $imgResource }}
+          {{ $webp := .Resize "600x400 webp q75 Center" }}
+          <picture>
+            <img src="{{ $webp.RelPermalink }}"
+                 alt="{{ .Params.alt | default .Title }}">
+          </picture>
+        {{ else }}
+          <img src="{{ "/img/default-thumbnail.png" | relURL }}" alt="No disponible">
+        {{ end }}
+      </div>
+
+      <div class="tour-content">
+        <h2>{{ .Title }}</h2>
+
+        <p>{{ .Summary | plainify | truncate 150 }}</p>
+
+        <a href="{{ .RelPermalink }}" class="tour-link">
+          IR A {{ .Title | upper }} &rarr;
+        </a>
+      </div>
+
+    </article>
+  {{ end }}
+</div>
+{{ end }}

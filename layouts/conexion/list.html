@@ -1,0 +1,87 @@
+{{ define "main" }}
+
+<h2>Unidos en la determinación de: <i>Buscar... y encontrarnos</i></h2>
+
+<p>
+Con anhelo espiritual practicamos día a día técnicas de sanación y expansión de la consciencia.
+</p>
+
+<p>
+<i>
+Un espacio para mantenernos unidos, presentes y caminando juntos en este hermoso proceso de expansión y crecimiento interior. Aquí encontrarás mensajes, reflexiones, encuentros en vivo, meditaciones, charlas, experiencias compartidas y momentos especiales que nacen día a día para acompañarte en tu camino.
+</i>
+</p>
+
+<p>
+Esta es nuestra puerta de encuentro cotidiano, un lugar donde la inspiración fluye, donde compartimos enseñanzas, herramientas y mensajes de luz para nutrir la Esencia, fortalecer la comunidad y recordar que no estamos solos en este viaje. Permítenos acompañarte con nuevas experiencias, contenidos y espacios de conexión que iremos creando para ti con amor y presencia.
+</p>
+
+<p>
+✨ Paz, salud y alegría para todos.<br> Nos acompañamos, estudiamos y seguimos en conexión con el Camino de Luz, procurando la presencia constante y unidos en comunidad, sabiendo que el trabajo es individual; para que el Recuerdo de Quién Eres llegue a cada corazón, reconociendo en los demás la misma chispa de libertad, porque Somos Uno. ✨
+</p>
+<hr style="height: 5px; background-color: blue; border: none;">
+
+{{/* FILTRADO ROBUSTO: Solo archivos dentro de la carpeta 'conexion' */}}
+{{ $paginasFiltradas := where site.RegularPages "Section" "conexion" }}
+
+{{/* Paginación */}}
+{{ $paginator := .Paginate ($paginasFiltradas.ByDate.Reverse) 6 }}
+
+<div class="tour-grid">
+
+  {{ range $paginator.Pages }}
+
+    <article class="tour-card">
+
+      <div class="tour-image">
+
+        {{ $imgResource := "" }}
+
+        {{ if .Params.image }}
+          {{ $imgResource = .Resources.GetMatch .Params.image }}
+        {{ end }}
+
+        {{ with $imgResource }}
+          {{ $webp := .Resize "600x400 webp q75 Center" }}
+
+          <picture>
+            <img src="{{ $webp.RelPermalink }}"
+                 alt="{{ .Params.alt | default .Title }}">
+          </picture>
+
+        {{ else }}
+
+          <img src="{{ "/img/default-thumbnail.png" | relURL }}"
+               alt="No disponible">
+
+        {{ end }}
+
+      </div>
+
+
+      <div class="tour-content">
+
+        <h2>{{ .Title }}</h2>
+
+        <p>{{ .Summary | plainify | truncate 150 }}</p>
+
+        <a href="{{ .RelPermalink }}" class="tour-link">
+          IR A {{ .Title | upper }} &rarr;
+        </a>
+
+      </div>
+
+    </article>
+
+  {{ end }}
+
+</div>
+
+
+{{/* Paginador */}}
+<div class="pagination-container" style="display: flex; justify-content: center; padding: 40px 0;">
+  {{ partial "pagination.html" . }}
+</div>
+
+
+{{ end }}

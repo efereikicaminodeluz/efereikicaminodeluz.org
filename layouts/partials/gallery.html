@@ -1,0 +1,57 @@
+<style>
+.image-gallery {
+    display: grid;
+    grid-template-columns: repeat(auto-fill,minmax(220px,1fr));
+    gap: 1rem;
+    list-style: none;
+    padding: 0;
+    margin: 2rem 0;
+}
+
+.image-gallery li {
+    margin: 0;
+    padding: 0;
+}
+
+.image-gallery li a {
+    display: block;
+    text-decoration: none;
+}
+
+.image-gallery li img {
+    width: 100%;
+    aspect-ratio: 1/1;
+    object-fit: cover;
+    display: block;
+    border-radius: 8px;
+}
+</style>
+
+{{ $hero := .context.Params.image }}
+
+<ul class="image-gallery">
+
+{{ range .context.Resources.ByType "image" }}
+
+    {{ if ne .Name $hero }}
+
+        {{ $large := .Fit "1600x1600 q75" }}
+        {{ $thumb := .Fill "400x400 q75" }}
+
+        <li>
+            <a href="{{ $large.RelPermalink }}"
+               class="lightbox-image">
+
+                <img
+                    src="{{ $thumb.RelPermalink }}"
+                    alt=""
+                    loading="lazy">
+
+            </a>
+        </li>
+
+    {{ end }}
+
+{{ end }}
+
+</ul>

@@ -1,0 +1,20 @@
+{{ define "main" }}
+<article>
+<h1>{{ .Title }}</h1>
+{{ if ne .Params.tiempo_de_lectura false }}
+<p style="color: gray;">
+    Tiempo de lectura: {{ partial "reading-time.html" . }}
+</p>
+{{ end }}
+{{ if and .Params.toc .TableOfContents (ne .TableOfContents "<nav id=\"TableOfContents\"></nav>") }}
+<details class="toc-desplegable">
+    <summary>Índice del artículo (Click para expandir/colapsar)</summary>
+    <nav>
+        {{ .TableOfContents }}
+    </nav>
+</details>
+{{ end }}
+{{ partial "list-to-carousel.html" . }}
+</article>
+{{ partial "share-buttons.html" . }}
+{{ end }}

@@ -1,0 +1,76 @@
+{{ define "main" }}
+  <h2>Sesiones terapeuticas en linea</h2>
+  <p>Infórmate de como  puedes obtener muy buenos resultados</p>
+  <span><i>Sana la causa y sanarás tu vida... Sana tu vida y sanarás tu linaje.</i></span>
+  <p>✨Tienes que vivir la experiencia, descubre todos sus beneficios.</p>
+  <hr style="height: 5px; background-color: blue; border: none;">
+
+  {{/* FILTRADO ROBUSTO: Solo archivos dentro de la carpeta 'terapia' */}}
+  {{ $paginasFiltradas := where site.RegularPages "Section" "terapia" }}
+
+  <div class="tour-grid" style="display: grid; grid-template-columns: repeat(auto-resize, minmax(300px, 1fr)); gap: 30px; padding: 20px; max-width: 1200px; margin: 0 auto;">
+
+    {{/* Aplicamos el orden y límite de 20 posts */}}
+    {{ range $paginasFiltradas.ByDate.Reverse | first 20 }}
+      <article class="tour-card" style="border: 1px solid #eee; border-radius: 12px; overflow: hidden; display: flex; flex-direction: column; transition: 0.3s; box-shadow: 0 4px 6px rgba(0,0,0,0.05); background: white;">
+
+        <div class="tour-image" style="height: 220px; overflow: hidden; background: #f4f4f4;">
+
+          {{/* LÓGICA DE IMAGEN COMPATIBLE CON TU ARQUETIPO */}}
+          {{ $imgResource := "" }}
+          {{ if .Params.image }}
+            {{ if reflect.IsMap .Params.image }}
+              {{ $imgResource = .Resources.GetMatch (printf "*%s*" .Params.image.src) }}
+            {{ else }}
+              {{ $imgResource = .Resources.GetMatch (printf "*%s*" .Params.image) }}
+            {{ end }}
+          {{ end }}
+
+          {{ if not $imgResource }}
+            {{ $imgResource = .Resources.GetMatch "{*portada*,*featured*,*cover*,*.jpg*,*.png*}" }}
+          {{ end }}
+
+          {{/* SUSTITUCIÓN: OPTIMIZACIÓN WEBP 600x400 CON CORTE HORIZONTAL */}}
+          {{ with $imgResource }}
+            {{/* .Fill obliga a la imagen a rellenar el espacio 600x400 recortando proporcionalmente desde el centro */}}
+            {{ $webp := .Resize "600x400 webp q75 Center" }}
+
+            <picture>
+              <img src="{{ $webp.RelPermalink }}"
+                   alt="{{ .Params.alt | default .Title }}"
+                   style="width: 100%; height: 100%; object-fit: cover;"
+                   loading="lazy"
+                   decoding="async">
+            </picture>
+          {{ else }}
+            {{/* Fallback con estilo responsivo */}}
+            <img src="{{ "/img/default-thumbnail.png" | relURL }}"
+                 style="width: 100%; height: 100%; object-fit: cover;"
+                 alt="No disponible">
+          {{ end }}
+        </div>
+
+        <div class="tour-content" style="padding: 1.5rem; flex-grow: 1; display: flex; flex-direction: column;">
+          <h2 style="margin: 0 0 10px 0; font-size: 1.4rem; color: #333;">{{ .Title }}</h2>
+
+          <p style="font-size: 0.95rem; color: #444; line-height: 1.5; margin-bottom: 1.5rem;">
+            {{ .Summary | plainify | truncate 150 }}
+          </p>
+
+            {{ if .Params.redirect }}
+<a href="{{ .Params.redirect }}" class="tour-link" style="margin-top: auto; font-weight: bold; color: #007bff; text-decoration: none; border-top: 1px solid #eee; padding-top: 10px;">
+  IR A {{ .Title | upper }} &rarr;
+</a>
+{{ else }}
+<a href="{{ .RelPermalink | relURL }}" class="tour-link" style="margin-top: auto; font-weight: bold; color: #007bff; text-decoration: none; border-top: 1px solid #eee; padding-top: 10px;">
+  IR A {{ .Title | upper }} &rarr;
+</a>
+{{ end }}
+
+          </a>
+        </div>
+
+      </article>
+    {{ end }}
+  </div>
+{{ end }}

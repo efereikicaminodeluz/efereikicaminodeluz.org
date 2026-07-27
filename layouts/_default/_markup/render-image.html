@@ -1,0 +1,67 @@
+{{- $img := "" -}}
+{{- $src := .Destination -}}
+
+{{/* 1. LOCALIZAR IMAGEN (Page Bundle primero) */}}
+{{- $img = .Page.Resources.GetMatch .Destination -}}
+
+{{- if not $img -}}
+    {{/* fallback a assets */}}
+    {{- $rutaLimpia := strings.TrimPrefix "/" .Destination -}}
+    {{- $img = resources.Get $rutaLimpia -}}
+{{- end -}}
+
+{{- if $img -}}
+
+  {{/* 2. PROCESAMIENTO ESTABLE */}}
+  {{- $large    := $img.Resize "1200x webp q75" -}}
+  {{- $small    := $img.Resize "600x webp q75" -}}
+  {{- $fallback := $img.Resize "1200x jpg q75" -}}
+
+  {{/* 3. RENDER BLOCK / INLINE */}}
+  {{- if .IsBlock -}}
+
+    {{/* Las imágenes normales del contenido pueden conservar el <picture> moderno */}}
+    <picture>
+      <source srcset="{{ $small.RelPermalink }} 600w, {{ $large.RelPermalink }} 1200w" type="image/webp">
+      <img
+        src="{{ $fallback.RelPermalink }}"
+        width="{{ $large.Width }}"
+        height="{{ $large.Height }}"
+        class="img-content-responsive"
+        style="width: 100%; height: auto; display: block;"
+        loading="lazy"
+        decoding="async"
+        fetchpriority="auto"
+        alt="{{ .Text | default "Imagen optimizada" }}"
+        {{ with .Title }}title="{{ . }}"{{ end }}
+      >
+    </picture>
+
+  {{- else -}}
+
+    {{/* SOLUCIÓN: Entrega un <img> plano que la expresión regular del carrusel pueda devorar sin romperse */}}
+    <img
+      src="{{ $large.RelPermalink }}"
+      width="{{ $large.Width }}"
+      height="{{ $large.Height }}"
+      class="slide-img"
+      style="width: 100%; height: auto; display: block;"
+      loading="lazy"
+      decoding="async"
+      alt="{{ .Text | default "Slide" }}"
+    >
+
+  {{- end -}}
+
+{{- else -}}
+
+  {{/* 4. FALLBACK EXTERNO SEGURO */}}
+  <img
+    src="{{ $src | safeURL }}"
+    alt="{{ .Text | default "Imagen" }}"
+    style="width: 100%; height: auto; display: block;"
+    loading="lazy"
+    decoding="async"
+  >
+
+{{- end -}}

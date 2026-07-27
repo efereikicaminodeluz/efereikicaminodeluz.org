@@ -1,0 +1,97 @@
+{{ define "main" }}
+
+<h2><i>¿Por qué hay derechos reservados?</i></h2>
+
+<p>
+<strong>
+El conocimiento, la sabiduría y la experiencia espiritual pertenecen a todos por su naturaleza universal. Los derechos establecidos aquí no buscan apropiarse de este saber, sino proteger la forma en que es compartido, organizado y difundido.
+</strong>
+</p>
+
+<p>
+Nos adherimos a un marco jurídico que preserva la libertad de acceso y aprendizaje. Estos derechos existen para proteger el propósito del proyecto: evitar que este contenido sea restringido, monopolizado o convertido en un recurso exclusivo, asegurando que permanezca disponible para cualquier ser humano de manera abierta. En plena concordancia con los deseos de nuestra Maestra, guía y custodio de estas hermosas enseñanzas que nos comparte.
+</p>
+
+<p>
+Ante los desafíos de nuestro tiempo y la saturación de información, trabajamos para ofrecer un espacio de claridad que honre la libertad de elegir donde queremos estar y como nos queremos sentir.
+</p>
+
+<p>
+Compartimos <strong>Conexión Espiritual</strong> desde la apertura y la abundancia, ofreciendo herramientas y enseñanzas para acompañar tu camino individual, respetando siempre tu libre albedrío.
+</p>
+
+<hr style="height: 5px; background-color: blue; border: none;">
+
+{{/* Mostramos todos los contenidos de la sección legal sin paginación */}}
+{{ $legal := where site.RegularPages "Section" "legal" }}
+
+<div class="news-list-container">
+
+  {{ range $legal.ByDate.Reverse }}
+
+    <article class="news-row-card">
+
+      {{/* Lado Izquierdo: Imagen optimizada */}}
+      <div class="news-row-image">
+
+        {{ $imgResource := "" }}
+
+        {{ if .Params.image }}
+
+          {{ if reflect.IsMap .Params.image }}
+            {{ $imgResource = .Resources.GetMatch (printf "*%s*" .Params.image.src) }}
+          {{ else }}
+            {{ $imgResource = .Resources.GetMatch (printf "*%s*" .Params.image) }}
+          {{ end }}
+
+        {{ end }}
+
+        {{ if not $imgResource }}
+          {{ $imgResource = .Resources.GetMatch "{*portada*,*featured*,*cover*,*.jpg*,*.png*}" }}
+        {{ end }}
+
+        {{ with $imgResource }}
+
+          {{ $webp := .Resize "600x webp q75" }}
+
+          <picture>
+            <img src="{{ $webp.RelPermalink }}"
+                 alt="{{ .Params.alt | default $.Title }}"
+                 style="width: 100%; height: 100%; object-fit: cover;"
+                 loading="lazy"
+                 decoding="async">
+          </picture>
+
+        {{ else }}
+
+          <img src="{{ "/img/default-thumbnail.png" | relURL }}"
+               alt="No disponible"
+               style="width: 100%; height: 100%; object-fit: cover;">
+
+        {{ end }}
+
+      </div>
+
+
+      {{/* Lado Derecho: Contenido */}}
+      <div class="news-row-content">
+
+        <h2>{{ .Title }}</h2>
+
+        <p>
+          {{ .Summary | plainify | truncate 200 }}
+        </p>
+
+        <a href="{{ .RelPermalink }}" class="news-row-link">
+          INFORMACIÓN COMPLETA &rarr;
+        </a>
+
+      </div>
+
+    </article>
+
+  {{ end }}
+
+</div>
+
+{{ end }}

@@ -1,0 +1,28 @@
+<nav class="breadcrumbs" aria-label="Breadcrumb">
+  <ol>
+
+    {{ if .IsHome }}
+      <li class="active">
+        <i class="fa fa-home" aria-hidden="true"></i>
+        {{ with .Title }}{{ . }}{{ else }}{{ .Site.Title }}{{ end }}
+      </li>
+    {{ else }}
+      <li>
+        <a href="/">
+          <i class="fa fa-home" aria-hidden="true"></i>
+        </a>
+      </li>
+
+      {{ range .Ancestors.Reverse }}
+        {{ if and (not .IsHome) .Title }}
+          <li>
+            <a href="{{ .Permalink }}">{{ .Title }}</a>
+          </li>
+        {{ end }}
+      {{ end }}
+
+      <li class="active">{{ .Title }}</li>
+    {{ end }}
+
+  </ol>
+</nav>

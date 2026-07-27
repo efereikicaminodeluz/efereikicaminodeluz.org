@@ -1,0 +1,48 @@
+{{ $img1 := resources.Get "images/frecuencia-arcangel-miguel.png" }}
+{{ $img2 := resources.Get "images/sanacion-cuantica.png" }}
+{{ $img3 := resources.Get "images/sistema-pralaya.png" }}
+{{ $img4 := resources.Get "images/conectate-al-ser.png" }}
+
+<div class="related-carousel">
+  <div class="auto-carousel" duration="7000">
+    <ul>
+      {{ if $img1 }}
+        {{ $thumb := $img1.Resize "600x" }}
+        <li id="slide0" class="active">
+          <img src="{{ $thumb.RelPermalink }}" alt="Imagen 1">
+        </li>
+      {{ end }}
+
+      {{ if $img2 }}
+        {{ $thumb := $img2.Resize "600x" }}
+        <li id="slide1">
+          <img src="{{ $thumb.RelPermalink }}" alt="Imagen 2">
+        </li>
+      {{ end }}
+
+      {{ if $img3 }}
+        {{ $thumb := $img3.Resize "600x" }}
+        <li id="slide2">
+          <img src="{{ $thumb.RelPermalink }}" alt="Imagen 3">
+        </li>
+      {{ end }}
+
+      {{ if $img4 }}
+        {{ $thumb := $img4.Resize "600x" }}
+        <li id="slide3">
+          <img src="{{ $thumb.RelPermalink }}" alt="Imagen 4">
+        </li>
+      {{ end }}
+    </ul>
+
+    <ol>
+      {{ if $img1 }}<li><a href="#slide0" class="active"></a></li>{{ end }}
+      {{ if $img2 }}<li><a href="#slide1"></a></li>{{ end }}
+      {{ if $img3 }}<li><a href="#slide2"></a></li>{{ end }}
+      {{ if $img4 }}<li><a href="#slide3"></a></li>{{ end }}
+    </ol>
+
+    <div class="prev">&#8249;</div>
+    <div class="next">&#8250;</div>
+  </div>
+</div>

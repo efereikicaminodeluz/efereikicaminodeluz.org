@@ -1,0 +1,26 @@
+{{ define "main" }}
+  <h1>Lista de Articulos</h1>
+  <div class="post-grid-container">
+  {{/* Filtramos: donde la Sección sea "posts", invertimos orden y tomamos los primeros 10 */}}
+{{ $paginasFiltradas := where site.RegularPages "Section" "articulos" }}
+
+{{ range $paginasFiltradas.ByDate.Reverse | first 15 }}
+    <a href="{{ .Permalink }}" class="post-grid-item">
+
+        {{ $imageResource := .Resources.GetMatch .Params.image }}
+
+        <div class="thumbnail-wrapper">
+            {{ if $imageResource }}
+                <img src="{{ $imageResource.RelPermalink }}" alt="Miniatura de {{ .Title }}" class="post-thumbnail">
+            {{ else }}
+                <img src="{{ "/img/default-thumbnail.jpg" | relURL }}" alt="Imagen no disponible" class="post-thumbnail">
+            {{ end }}
+        </div>
+
+        <div class="post-title-overlay">
+            {{ .Title }}
+        </div>
+    </a>
+{{ end }}
+</div>
+{{ end }}
