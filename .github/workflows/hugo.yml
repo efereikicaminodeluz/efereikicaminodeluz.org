@@ -1,4 +1,3 @@
-cat .github/workflows/hugo.yml
 name: Deploy Hugo site to Pages
 
 on:
@@ -24,10 +23,8 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout bundled-image commit
+      - name: Checkout
         uses: actions/checkout@v5
-        with:
-          ref: ${{ github.event.workflow_run.head_sha }}
 
       - name: Setup Hugo
         uses: peaceiris/actions-hugo@v3
@@ -49,11 +46,9 @@ jobs:
       url: ${{ steps.deployment.outputs.page_url }}
 
     runs-on: ubuntu-latest
-
     needs: build
 
     steps:
       - name: Deploy to GitHub Pages
         id: deployment
         uses: actions/deploy-pages@v4
-haxo@KRS:~/RCL-VERSION-1.0$ 
