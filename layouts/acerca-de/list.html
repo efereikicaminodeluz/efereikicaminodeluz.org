@@ -32,7 +32,7 @@ Publicamos para que cada uno pueda desarrollar su Conexión Espiritual con el su
         {{ $imgResource := "" }}
 
         {{ if .Params.image }}
-          {{ $imgResource = .Resources.GetMatch .Params.image }}
+          {{ $imgResource = .Resources.GetMatch (printf "*%s*" (path.Base .Params.image)) }}
         {{ end }}
 
         {{ with $imgResource }}
