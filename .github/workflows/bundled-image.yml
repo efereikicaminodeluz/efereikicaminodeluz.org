@@ -1,0 +1,148 @@
+name: bundled-image
+
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - content/**
+      - media/**
+
+permissions:
+  contents: write
+
+concurrency:
+  group: bundled-image
+  cancel-in-progress: false
+
+jobs:
+  migrate:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v5
+        with:
+          fetch-depth: 0
+
+      - name: Refresh repository
+        shell: bash
+        run: |
+          set -euo pipefail
+
+          git fetch origin
+          git reset --hard origin/main
+      - name: Move PagesCMS image
+        shell: bash
+        run: >
+          set -euo pipefail
+
+
+          mkdir -p media
+
+          touch media/.gitkeep
+
+
+          shopt -s nullglob
+
+
+          FILES=(media/*)
+
+
+          IMAGE=""
+
+
+          for F in "${FILES[@]}"
+
+          do
+              B=$(basename "$F")
+
+              [ "$B" = ".gitkeep" ] && continue
+
+              IMAGE="$F"
+              break
+          done
+
+
+          if [ -z "$IMAGE" ]
+
+          then
+              echo "No image found."
+              exit 0
+          fi
+
+
+          IMAGE_NAME=$(basename "$IMAGE")
+
+
+          TARGET=$(grep -rlF --include=index.md "$IMAGE_NAME" content/ | head -n1 || true)
+
+
+          if [ -z "$TARGET" ]
+
+          then
+              echo "No bundle references $IMAGE_NAME"
+              exit 0
+          fi
+
+
+          DEST=$(dirname "$TARGET")
+
+
+          TARGET_PATH="$DEST/$IMAGE_NAME"
+          if [ -e "$TARGET_PATH" ]; then
+              FILENAME="${IMAGE_NAME%.*}"
+              EXTENSION="${IMAGE_NAME##*.}"
+              if [ "$FILENAME" = "$IMAGE_NAME" ]; then
+                  EXTENSION=""
+              fi
+              COUNTER=1
+              while true; do
+                  if [ -n "$EXTENSION" ]; then
+                      NEW_IMAGE_NAME="${FILENAME}-${COUNTER}.${EXTENSION}"
+                  else
+                      NEW_IMAGE_NAME="${FILENAME}-${COUNTER}"
+                  fi
+                  if [ ! -e "$DEST/$NEW_IMAGE_NAME" ]; then
+                      TARGET_PATH="$DEST/$NEW_IMAGE_NAME"
+                      break
+                  fi
+                  COUNTER=$((COUNTER + 1))
+              done
+          fi
+
+
+          mv "$IMAGE" "$TARGET_PATH"
+
+
+          touch media/.gitkeep
+      - name: Commit
+        shell: bash
+        run: >
+          set -euo pipefail
+
+
+          git config user.name "github-actions[bot]"
+
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+
+
+          git add -A
+
+
+          if git diff --cached --quiet
+
+          then
+              echo "Nothing to commit."
+              exit 0
+          fi
+
+
+          git commit -m "Bundle PagesCMS images"
+      - name: Publish
+        shell: bash
+        run: |
+          set -euo pipefail
+
+          git pull --rebase origin main
+
+          git push origin HEAD:main
