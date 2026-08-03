@@ -1,0 +1,321 @@
+media:
+  input: media
+  output: .
+
+content:
+  - name: acerca-de
+    label: Acerca de
+    type: collection
+    path: content/acerca-de
+    filename:
+      template: "{slug}/index.md"
+    format: toml-frontmatter
+    delimiters: "+++"
+    view:
+      primary: title
+      fields:
+        - title
+        - draft
+    fields:
+      - name: title
+        label: TÍTULO
+        type: string
+        required: true
+
+      - name: draft
+        label: Borrador
+        type: boolean
+        default: false
+
+      - name: summary
+        label: Gancho para el lector
+        type: text
+
+      - name: categorias
+        label: Categoría
+        type: select
+        options:
+          multiple: true
+          min: 1
+          max: 1
+          values:
+            - Articulos
+            - Cursos
+            - Talleres
+            - Eventos
+            - Terapias
+            - Meditaciones
+            - Testimonios
+            - Recursos
+            - Guías
+            - Forochats
+            - Identidad
+            - Preguntas Frecuentes
+            - Legal
+            - Formacion
+            - Conexión
+            - Secciones
+
+      - name: temas
+        label: Temas
+        type: select
+        options:
+          multiple: true
+          min: 1
+          max: 3
+          values:
+            - Filosofía y Propósito
+            - Misión y Visión
+            - Valores y Principios
+            - Comunidad
+            - Historia y Trayectoria
+            - Elementos Simbólicos e Iconografía
+            - Ansiedad
+            - Estrés
+            - Autoestima
+            - Depresión
+            - Duelo
+            - Miedo
+            - Tristeza
+            - Culpa
+            - Trauma
+            - Heridas de Infancia
+            - Abuso
+            - Rechazo
+            - Abandono
+            - Humillación
+            - Injusticia
+            - Traición
+            - Perdón
+            - Dolor
+            - Soledad
+            - Pérdida
+            - Relaciones
+            - Pareja
+            - Familia
+            - Hijos
+            - Padres
+            - Paternidad
+            - Maternidad
+            - Codependencia
+            - Límites Personales
+            - Relaciones Tóxicas
+            - Linaje Familiar
+            - Ancestros
+            - Árbol Genealógico
+            - Patrones Repetitivos
+            - Lealtades Familiares
+            - Propósito de Vida
+            - Crecimiento Personal
+            - Transformación Personal
+            - Conciencia
+            - Toma de Decisiones
+            - Espiritualidad
+            - Despertar de Conciencia
+            - Evolución Interior
+            - Presencia
+            - Conexión Interior
+            - Chakras
+            - Aura
+            - Energía Vital
+            - Equilibrio Energético
+            - Limpieza Energética
+            - Meditación
+            - Respiración Consciente
+            - Visualización
+            - Gratitud
+            - Yo Superior
+            - Médicos Celestiales
+            - Fuego Interior
+            - Reiki
+            - Ángeles
+            - Vidas Pasadas
+            - Sanación Energética
+            - Prosperidad
+            - Sistemas Energéticos
+            - Gracia Divina
+            - Suministro Divino
+            - Linaje
+            - Péndulo
+            - Sanación Cuántica
+            - Conexión Espiritual
+            - Karma
+            - Compromisos
+            - Rayos y Arcángeles
+            - Familia de Alma
+            - Sanación a Distancia
+
+      - name: aspectos
+        label: Aspectos
+        type: select
+        options:
+          multiple: true
+          min: 3
+          max: 7
+          values:
+            - Miedo
+            - Ansiedad
+            - Estrés
+            - Culpa
+            - Vergüenza
+            - Tristeza
+            - Soledad
+            - Frustración
+            - Enojo
+            - Alegría
+            - Miedo al Rechazo
+            - Rechazo
+            - Abandono
+            - Traición
+            - Humillación
+            - Injusticia
+            - Autoreproche
+            - Indignidad
+            - Codependencia
+            - Apego
+            - Apego Ansioso
+            - Límites Personales
+            - Relaciones Tóxicas
+            - Separación
+            - Divorcio
+            - Celos
+            - Comunicación
+            - Unidad
+            - Familia de Alma
+            - Niño Interior
+            - Papá
+            - Mamá
+            - Adulto Funcional
+            - Carencias Emocionales
+            - Linaje
+            - Insomnio
+            - Ataques de Pánico
+            - Somatización
+            - Estrés Crónico
+            - Agotamiento
+            - Fatiga Emocional
+            - Agotamiento Mental
+            - Crisis Emocional
+            - Niebla Mental
+            - Indefensión
+            - ADN Cósmico
+            - Suministro Divino
+            - Conexión Interior
+            - Consciencia
+            - Presencia
+            - Intención
+            - Aceptación
+            - Gratitud
+            - Compasión
+            - Espiritualidad
+            - Unidad
+            - Dharma
+            - Gracia Divina
+            - Despertar
+            - Yo Superior
+            - Propósito y Sentido de Vida
+            - Abundancia y Prosperidad
+            - Chakras
+            - Aura
+            - Energía Vital
+            - Bloqueos Energéticos
+            - Limpieza Energética
+            - Equilibrio Energético
+            - Sistemas Energéticos
+            - Auto Tratamiento
+            - Entidades y Parásitos
+            - Oracion
+            - Percepcion
+            - Meditación
+            - Respiración Consciente
+            - Visualización
+            - Afirmaciones
+            - Perdón
+            - Terapia de Perdón
+            - Gratitud
+            - Radiestesia
+            - Palabras Gatillo
+            - Activación
+            - Protocolos
+            - Autoindagación
+            - Aprendizajes
+            - Salud Física
+            - Sanidad Emocional
+            - Audio Frecuencias
+            - Mantras
+            - Autoestima
+            - Autoestima Baja
+            - Autoestima Herida
+            - Autocrítica
+            - Autoexigencia
+            - Coherencia interior
+            - Regulación Emocional
+            - Sanación Interior
+            - Aplicación Práctica
+            - Transformación Personal
+            - Amor
+            - Buda
+            - Jesús
+            - Ángeles
+            - Arquetipos
+            - Símbolos
+            - Sabiduría Ancestral
+            - Tradiciones
+            - Relatos
+            - Parábolas
+            - Propósito
+            - Misión
+            - Visión
+            - Valores
+            - Principios
+            - Filosofía
+            - Enfoque
+            - Metodología
+            - Cosmovisión
+            - Marco de Trabajo
+            - Forma de Acompañamiento
+            - Forma de Enseñanza
+            - Comunidad
+            - Experiencia Compartida
+
+      - name: description
+        label: Descripción
+        type: text
+
+      - name: toc
+        label: Tabla de contenido
+        type: boolean
+
+      - name: leer_mas
+        label: Leer más
+        type: boolean
+
+      - name: carrusel
+        label: Carrusel
+        type: boolean
+
+      - name: lightbox
+        label: Lightbox
+        type: boolean
+
+      - name: gallery
+        label: Galería
+        type: boolean
+
+      - name: image
+        label: Imagen
+        type: image
+        options:
+        media: media
+
+      - name: alt
+        label: Texto alternativo
+        type: string
+
+      - name: caption
+        label: Pie de imagen
+        type: text
+
+      - name: body
+        label: Contenido
+        type: rich-text
