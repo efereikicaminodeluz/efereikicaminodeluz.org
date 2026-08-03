@@ -1,3 +1,37 @@
+name: bundled-image
+
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - 'content/**/index.md'
+
+permissions:
+  contents: write
+
+concurrency:
+  group: bundled-image
+  cancel-in-progress: false
+
+jobs:
+  migrate:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v5
+        with:
+          fetch-depth: 0
+
+      - name: Refresh repository
+        shell: bash
+        run: |
+          set -euo pipefail
+
+          git fetch origin
+          git reset --hard origin/main
+
       - name: Move PagesCMS image
         shell: bash
         run: |
@@ -5,8 +39,6 @@
 
           mkdir -p media
           touch media/.gitkeep
-          shopt -s nullglob
-          FILES=(media/*)
 
           echo "========================================"
           echo "Repository state"
@@ -23,33 +55,39 @@
           echo
           echo "========================================"
 
+          shopt -s nullglob
+
+          FILES=(media/*)
+
           MOVED=0
 
-          # Barrido completo: revisa TODAS las imágenes en media/
           for IMAGE in "${FILES[@]}"; do
+
               B=$(basename "$IMAGE")
+
               [ "$B" = ".gitkeep" ] && continue
 
               IMAGE_NAME="$B"
 
               echo
-              echo "----------------------------------------"
-              echo "Processing: $IMAGE_NAME"
+              echo "Processing image:"
+              echo "$IMAGE_NAME"
 
-              echo "Searching bundle..."
-
-              grep -rlF --include=index.md "$IMAGE_NAME" content/ || true
+              echo "Searching reference..."
 
               TARGET=$(grep -rlF --include=index.md "$IMAGE_NAME" content/ | head -n1 || true)
 
               if [ -n "$TARGET" ]; then
+
                   echo "Bundle found:"
                   echo "$TARGET"
 
                   DEST=$(dirname "$TARGET")
+
                   TARGET_PATH="$DEST/$IMAGE_NAME"
 
                   if [ -e "$TARGET_PATH" ]; then
+
                       FILENAME="${IMAGE_NAME%.*}"
                       EXTENSION="${IMAGE_NAME##*.}"
 
@@ -60,6 +98,7 @@
                       COUNTER=1
 
                       while true; do
+
                           if [ -n "$EXTENSION" ]; then
                               NEW_IMAGE_NAME="${FILENAME}-${COUNTER}.${EXTENSION}"
                           else
@@ -72,124 +111,56 @@
                           fi
 
                           COUNTER=$((COUNTER + 1))
+
                       done
                   fi
 
                   mv "$IMAGE" "$TARGET_PATH"
 
                   echo "Moved:"
-                  echo "  $IMAGE"
-                  echo "  ->"
-                  echo "  $TARGET_PATH"
+                  echo "$IMAGE"
+                  echo "=>"
+                  echo "$TARGET_PATH"
 
                   MOVED=1
 
               else
-                  echo "No bundle references $IMAGE_NAME"
+
+                  echo "No bundle reference found for:"
+                  echo "$IMAGE_NAME"
+
               fi
+
           done
 
           touch media/.gitkeep
 
           if [ "$MOVED" -eq 0 ]; then
-              echo
-              echo "No images were moved."
-              exit 0
-          fi      - name: Move PagesCMS image
+              echo "No images moved."
+          fi
+
+      - name: Commit
         shell: bash
         run: |
           set -euo pipefail
 
-          mkdir -p media
-          touch media/.gitkeep
-          shopt -s nullglob
-          FILES=(media/*)
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
 
-          echo "========================================"
-          echo "Repository state"
-          echo "========================================"
+          git add -A
 
-          echo
-          echo "MEDIA:"
-          find media -maxdepth 1 -type f | sort || true
-
-          echo
-          echo "INDEX FILES:"
-          find content -name index.md | sort || true
-
-          echo
-          echo "========================================"
-
-          MOVED=0
-
-          # Barrido completo: revisa TODAS las imágenes en media/
-          for IMAGE in "${FILES[@]}"; do
-              B=$(basename "$IMAGE")
-              [ "$B" = ".gitkeep" ] && continue
-
-              IMAGE_NAME="$B"
-
-              echo
-              echo "----------------------------------------"
-              echo "Processing: $IMAGE_NAME"
-
-              echo "Searching bundle..."
-
-              grep -rlF --include=index.md "$IMAGE_NAME" content/ || true
-
-              TARGET=$(grep -rlF --include=index.md "$IMAGE_NAME" content/ | head -n1 || true)
-
-              if [ -n "$TARGET" ]; then
-                  echo "Bundle found:"
-                  echo "$TARGET"
-
-                  DEST=$(dirname "$TARGET")
-                  TARGET_PATH="$DEST/$IMAGE_NAME"
-
-                  if [ -e "$TARGET_PATH" ]; then
-                      FILENAME="${IMAGE_NAME%.*}"
-                      EXTENSION="${IMAGE_NAME##*.}"
-
-                      if [ "$FILENAME" = "$IMAGE_NAME" ]; then
-                          EXTENSION=""
-                      fi
-
-                      COUNTER=1
-
-                      while true; do
-                          if [ -n "$EXTENSION" ]; then
-                              NEW_IMAGE_NAME="${FILENAME}-${COUNTER}.${EXTENSION}"
-                          else
-                              NEW_IMAGE_NAME="${FILENAME}-${COUNTER}"
-                          fi
-
-                          if [ ! -e "$DEST/$NEW_IMAGE_NAME" ]; then
-                              TARGET_PATH="$DEST/$NEW_IMAGE_NAME"
-                              break
-                          fi
-
-                          COUNTER=$((COUNTER + 1))
-                      done
-                  fi
-
-                  mv "$IMAGE" "$TARGET_PATH"
-
-                  echo "Moved:"
-                  echo "  $IMAGE"
-                  echo "  ->"
-                  echo "  $TARGET_PATH"
-
-                  MOVED=1
-
-              else
-                  echo "No bundle references $IMAGE_NAME"
-              fi
-          done
-
-          touch media/.gitkeep
-
-          if [ "$MOVED" -eq 0 ]; then
-              echo
-              echo "No images were moved."
+          if git diff --cached --quiet; then
+              echo "Nothing to commit."
               exit 0
           fi
+
+          git commit -m "Bundle PagesCMS images"
+
+      - name: Publish
+        shell: bash
+        run: |
+          set -euo pipefail
+
+          git pull --rebase origin main
+
+          git push origin HEAD:main
